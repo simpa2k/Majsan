@@ -6,6 +6,10 @@ public class World {
         return null;
     }
 
+    public boolean isAlive() {
+        return false;
+    }
+
     public class Step {
 
         double[] sensors;
