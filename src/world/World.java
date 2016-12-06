@@ -2,7 +2,7 @@ package world;
 
 public class World {
 
-    public void senseActLearn() {
+    public void step() {
         
     }
 }
