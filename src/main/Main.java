@@ -12,7 +12,8 @@ public class Main {
 
         SensorPark sensorPark = new SensorPark();
 
-        SmartAgricultureWorld world = new SmartAgricultureWorld(null, 
+        SmartAgricultureWorld world = new SmartAgricultureWorld(
+                null, 
                 "Smart Agriculture World", 
                 sensorPark.getNumberOfSensors(), 
                 1, 

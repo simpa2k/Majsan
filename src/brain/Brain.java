@@ -10,4 +10,14 @@ public class Brain {
         return null;
     }
 
+    public int getTimeStep() {
+
+        //Placeholder
+        return 0;
+    }
+
+    public void visualize() {
+        System.out.println("Brain not implemented");
+    }
+
 }
