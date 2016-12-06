@@ -11,7 +11,7 @@ public class Connector {
 
         Brain brain = new Brain();
 
-        double[] actions = {0.0, 0.0};
+        double[] actions = new double[2];
         Step step = world.step(actions);
 
         while(world.isAlive()) {
