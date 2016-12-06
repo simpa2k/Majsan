@@ -3,7 +3,7 @@ package connector;
 import brain.Brain;
 
 import world.World;
-import world.World.Step;
+import world.Step;
 
 public class Connector {
 
@@ -15,8 +15,10 @@ public class Connector {
         Step step = world.step(actions);
 
         while(world.isAlive()) {
+
             actions = brain.senseActLearn(step.getSensors(), step.getReward());
             step = world.step(actions);
+
         }
         
     }
