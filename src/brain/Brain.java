@@ -1,5 +1,8 @@
 package brain;
 
+import world.SmartAgricultureWorld;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class Brain {
@@ -7,7 +10,11 @@ public class Brain {
     public Map<String, Double> senseActLearn(Map<String, Double> sensors, double reward) {
 
         //Placeholder
-        return null;
+        HashMap<String, Double> actions = new HashMap<>();
+        actions.put(SmartAgricultureWorld.IRRIGATE, 0.0);
+
+        return actions;
+
     }
 
     public int getTimeStep() {
