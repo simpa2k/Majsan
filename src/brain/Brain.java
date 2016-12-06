@@ -1,11 +1,13 @@
 package brain;
 
+import java.util.Map;
+
 public class Brain {
 
-    public double[] senseActLearn(double[] sensors, double reward) {
+    public Map<String, Double> senseActLearn(Map<String, Double> sensors, double reward) {
 
         //Placeholder
-        return new double[2];
+        return null;
     }
 
 }

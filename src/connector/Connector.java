@@ -1,8 +1,12 @@
 package connector;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import brain.Brain;
 
 import world.World;
+import world.SmartAgricultureWorld;
 import world.Step;
 
 public class Connector {
@@ -11,7 +15,9 @@ public class Connector {
 
         Brain brain = new Brain();
 
-        double[] actions = new double[2];
+        Map<String, Double> actions = new HashMap<>();
+        actions.put(SmartAgricultureWorld.IRRIGATE, 0.0);
+
         Step step = world.step(actions);
 
         while(world.isAlive()) {

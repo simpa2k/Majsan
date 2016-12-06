@@ -1,17 +1,20 @@
 package world;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class World {
 
     private int lifespan;
     private String name;
-    private int timestep;
+    protected int timestep;
     private int numSensors;
     private int numActions;
 
-    private double[] sensors;
-    private double[] actions;
+    protected Map<String, Double> sensors = new HashMap<>();
+    protected Map<String, Double> actions = new HashMap<>();
 
-    private double reward;
+    protected double reward;
 
     public World(Integer lifespan, String name, int numSensors, int numActions) {
         
@@ -26,17 +29,14 @@ public class World {
         this.numSensors = numSensors;
         this.numActions = numActions;
 
-        sensors = new double[numSensors];
-        actions = new double[numActions];
-
         reward = 0;
 
     }
 
-    public Step step(double[] actions) {
+    public Step step(Map<String, Double> actions) {
         
         timestep += 1;
-        sensors = new double[numSensors]; 
+        sensors = new HashMap<String, Double>();
         reward = 0;
 
         return new Step(sensors, reward);

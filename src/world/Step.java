@@ -1,18 +1,20 @@
 package world;
 
+import java.util.Map;
+
 public class Step {
 
-    double[] sensors;
-    double reward;
+    private Map<String, Double> sensors;
+    private double reward;
 
-    public Step(double[] sensors, double reward) {
+    public Step(Map<String, Double> sensors, double reward) {
 
         this.sensors = sensors;
         this.reward = reward;
         
     }
 
-    public double[] getSensors() {
+    public Map<String, Double> getSensors() {
         return sensors;
     }
 
