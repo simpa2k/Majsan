@@ -106,7 +106,7 @@ public class Brain {
         }
 
         lastSoilMoisture = newSoilMoisture;
-        lastAction.setValue((lastAction.getValue() + 0.1) * sensors.get(SmartAgricultureWorld.SOIL_MOISTURE));
+        lastAction.setValue((lastAction.getValue() + 0.2) * sensors.get(SmartAgricultureWorld.SOIL_MOISTURE));
 
         HashMap<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, lastAction.getValue());
