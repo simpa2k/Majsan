@@ -23,7 +23,6 @@ public class TableEntry {
         value++;
     }
 
-    @Override
     public String toString(){
         return "" + value;
     }
