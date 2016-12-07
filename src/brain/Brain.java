@@ -1,7 +1,7 @@
 package brain;
 
 import com.google.common.collect.HashBasedTable;
-import test.TableEntry;
+import tableEntry.TableEntry;
 import world.SmartAgricultureWorld;
 
 import java.util.ArrayList;
