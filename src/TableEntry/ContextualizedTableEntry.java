@@ -7,7 +7,7 @@ public class ContextualizedTableEntry extends TableEntry {
 
     private String context;
 
-    public ContextualizedTableEntry(double value, String context) {
+    public ContextualizedTableEntry(Double value, String context) {
 
         super(value);
         this.context = context;
