@@ -13,6 +13,7 @@ public class Brain {
 
     private String name;
 
+    private TableEntry lastSoilMoisture;
     private TableEntry lastAction;
     private HashBasedTable<Integer, String, TableEntry> probTable = HashBasedTable.create();
 
@@ -77,15 +78,15 @@ public class Brain {
         //double soilMoistureBefore = soilMoistureEntry.getValue();
 
         //Integer row = tableRowContainsBoth(soilMoistureBefore, lastAction.getValue());
-        ArrayList<Integer> rows = tableRowContainsBoth(lastSoilMoisture, lastAction.getValue());
-
+        ArrayList<Integer> rows = tableRowContainsBoth(lastSoilMoisture.getValue(), lastAction.getValue());
+        TableEntry currentOpportunityCount = null;
 
         boolean appendNewRow = true;
         if (!rows.isEmpty()) {
 
             for (Integer row : rows) {
 
-                TableEntry currentOpportunityCount = probTable.get(row, "opportunities");
+                currentOpportunityCount = probTable.get(row, "opportunities");
                 currentOpportunityCount.increment();
 
                 if (sensors.get(SmartAgricultureWorld.SOIL_MOISTURE) == probTable.get(row, "soil moisture, after").getValue()) {
@@ -99,15 +100,17 @@ public class Brain {
             }
         }
 
+        TableEntry newSoilMoisture = new TableEntry(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE));
+
         if(appendNewRow) {
 
             numberOfRows++;
 
             probTable.put(numberOfRows, "soil moisture, before", lastSoilMoisture);
             probTable.put(numberOfRows, "action", lastAction);
-            probTable.put(numberOfRows, "soil moisture, after", new TableEntry(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE)));
+            probTable.put(numberOfRows, "soil moisture, after", newSoilMoisture);
 
-            double opportunities = 1;
+            double opportunities = currentOpportunityCount == null ? 1 : currentOpportunityCount.getValue();
             double observations = 1;
             double probability = observations/opportunities;
 
@@ -115,17 +118,10 @@ public class Brain {
             probTable.put(numberOfRows, "observations", new TableEntry(observations));
             probTable.put(numberOfRows, "probability", new TableEntry(probability));
             probTable.put(numberOfRows, "reward", new TableEntry(reward));
-
         }
 
-        probTable.put("Observations", new TableEntry(1.0));
-
-
-        //probTable.put("Probability", new tableEntry())
-
-
+        lastSoilMoisture = newSoilMoisture;
         return actions;
-
     }
 
     public int getTimeStep() {
