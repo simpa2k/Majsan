@@ -1,4 +1,4 @@
-package tableEntry;
+package test;
 
 /**
  * Created by simpa2k on 2016-12-07.

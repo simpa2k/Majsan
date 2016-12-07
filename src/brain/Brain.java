@@ -1,10 +1,9 @@
 package brain;
 
 import com.google.common.collect.HashBasedTable;
-import tableEntry.TableEntry;
+import test.TableEntry;
 import world.SmartAgricultureWorld;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

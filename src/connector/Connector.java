@@ -5,7 +5,7 @@ import java.util.Map;
 
 import brain.Brain;
 
-import tableEntry.TableEntry;
+import test.TableEntry;
 import world.World;
 import world.SmartAgricultureWorld;
 import world.Step;
