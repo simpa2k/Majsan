@@ -4,6 +4,8 @@ import com.google.common.collect.HashBasedTable;
 import tableEntry.TableEntry;
 import world.SmartAgricultureWorld;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +29,9 @@ public class Brain {
 
     }
 
-    private Integer tableRowContainsBoth(Double value1, Double value2) {
+    private ArrayList<Integer> tableRowContainsBoth(Double value1, Double value2) {
 
+        ArrayList<Integer> rows = new ArrayList<>();
         for (Integer row : probTable.rowKeySet()) {
 
             boolean containsValue1 = false;
@@ -47,11 +50,11 @@ public class Brain {
             }
 
             if(containsValue1 && containsValue2) {
-                return row;
+                rows.add(row);
             }
 
         }
-        return null;
+        return rows;
     }
 
     public Map<String, Double> senseActLearn(Map<String, Double> sensors, double reward) {
@@ -74,23 +77,26 @@ public class Brain {
         //double soilMoistureBefore = soilMoistureEntry.getValue();
 
         //Integer row = tableRowContainsBoth(soilMoistureBefore, lastAction.getValue());
-        Integer row = tableRowContainsBoth(lastSoilMoisture, lastAction.getValue());
+        ArrayList<Integer> rows = tableRowContainsBoth(lastSoilMoisture, lastAction.getValue());
+
 
         boolean appendNewRow = true;
-        if(row != null) {
+        if (!rows.isEmpty()) {
 
-            TableEntry currentOpportunityCount = probTable.get(row, "opportunities");
-            currentOpportunityCount.increment();
+            for (Integer row : rows) {
 
-            if(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE) == probTable.get(row, "soil moisture, after").getValue()) {
+                TableEntry currentOpportunityCount = probTable.get(row, "opportunities");
+                currentOpportunityCount.increment();
 
-                TableEntry currentObservationCount = probTable.get(row, "observations");
-                currentObservationCount.increment();
+                if (sensors.get(SmartAgricultureWorld.SOIL_MOISTURE) == probTable.get(row, "soil moisture, after").getValue()) {
 
-                appendNewRow = false;
+                    TableEntry currentObservationCount = probTable.get(row, "observations");
+                    currentObservationCount.increment();
 
+                    appendNewRow = false;
+
+                }
             }
-
         }
 
         if(appendNewRow) {
@@ -100,13 +106,22 @@ public class Brain {
             probTable.put(numberOfRows, "soil moisture, before", lastSoilMoisture);
             probTable.put(numberOfRows, "action", lastAction);
             probTable.put(numberOfRows, "soil moisture, after", new TableEntry(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE)));
-            
+
+            double opportunities = 1;
+            double observations = 1;
+            double probability = observations/opportunities;
+
+            probTable.put(numberOfRows, "opportunities", new TableEntry((opportunities)));
+            probTable.put(numberOfRows, "observations", new TableEntry(observations));
+            probTable.put(numberOfRows, "probability", new TableEntry(probability));
+            probTable.put(numberOfRows, "reward", new TableEntry(reward));
+
         }
 
         probTable.put("Observations", new TableEntry(1.0));
 
 
-        //probTable.put("Probability", new TableEntry())
+        //probTable.put("Probability", new tableEntry())
 
 
         return actions;
