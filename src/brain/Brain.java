@@ -47,7 +47,6 @@ public class Brain {
                 if (probTable.get(row, column).getValue() == value2) {
                     containsValue2 = true;
                 }
-
             }
 
             if(containsValue1 && containsValue2) {
@@ -62,22 +61,6 @@ public class Brain {
 
         timestep += 1;
 
-
-        /*
-        Om det finns någon rad med samma soil moisture, before och action:
-            öka opportunities
-
-            Om resultat också är samma:
-                Öka observation
-                bryt
-
-         Lägg in på ny rad
-         */
-
-        //TableEntry soilMoistureEntry = probTable.get(numberOfRows, "soil moisture, before");
-        //double soilMoistureBefore = soilMoistureEntry.getValue();
-
-        //Integer row = tableRowContainsBoth(soilMoistureBefore, lastAction.getValue());
         ArrayList<Integer> rows = tableRowContainsBoth(lastSoilMoisture.getValue(), lastAction.getValue());
         TableEntry currentOpportunityCount = null;
 
