@@ -80,6 +80,7 @@ public class Brain {
 
                 }
 
+                probTable.put(row, "action", lastAction);
                 TableEntry currentProbabilityEntry = probTable.get(row, "probability");
                 currentProbabilityEntry.setValue(currentObservationCount.getValue() / currentOpportunityCount.getValue());
             }
@@ -106,6 +107,7 @@ public class Brain {
         }
 
         lastSoilMoisture = newSoilMoisture;
+        lastAction.setValue((lastAction.getValue() + 1) * sensors.get(SmartAgricultureWorld.SOIL_MOISTURE));
 
         HashMap<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, lastAction.getValue());

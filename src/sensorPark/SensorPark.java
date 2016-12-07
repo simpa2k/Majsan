@@ -8,22 +8,27 @@ public class SensorPark {
     
     private int numberOfSensors = 1;
     private Map<String, Double> sensorValues = new HashMap<>();
+    private Random random;
 
     public SensorPark() {
+
+        random = new Random();
         retrieveDataFromSensors();
+
     }
 
     private void retrieveDataFromSensors() {
 
-        Random random = new Random();
-
-        double soilMoisture = random.nextDouble() * 0.35;
+        double soilMoisture = random.nextInt() * 0.35;
         sensorValues.put("Soil Moisture", soilMoisture);
 
     }
 
     public Map<String, Double> getSensorValues() {
+
+        retrieveDataFromSensors();
         return sensorValues;
+
     }
 
     public int getNumberOfSensors() {
