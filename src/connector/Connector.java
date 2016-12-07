@@ -5,6 +5,7 @@ import java.util.Map;
 
 import brain.Brain;
 
+import tableEntry.TableEntry;
 import world.World;
 import world.SmartAgricultureWorld;
 import world.Step;
@@ -13,7 +14,7 @@ public class Connector {
 
     public void run(World world) {
 
-        Brain brain = new Brain();
+        Brain brain = new Brain("Smart Agriculture Brain", new TableEntry(0.2));
 
         Map<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, 0.0);
@@ -27,6 +28,5 @@ public class Connector {
             world.visualize(brain);
 
         }
-        
     }
 }
