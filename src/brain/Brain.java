@@ -25,8 +25,7 @@ public class Brain {
         this.name = name;
         lastAction =  new TableEntry(0.0);
 
-        probTable.put(timestep, "soil moisture, before", initialSoilMoisture);
-        probTable.put(timestep, "action", lastAction);
+        lastSoilMoisture = initialSoilMoisture;
 
     }
 
@@ -104,6 +103,10 @@ public class Brain {
         }
 
         lastSoilMoisture = newSoilMoisture;
+
+        HashMap<String, Double> actions = new HashMap<>();
+        actions.put(SmartAgricultureWorld.IRRIGATE, lastAction.getValue());
+
         return actions;
     }
 
