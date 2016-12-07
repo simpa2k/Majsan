@@ -71,14 +71,17 @@ public class Brain {
                 currentOpportunityCount = probTable.get(row, "opportunities");
                 currentOpportunityCount.increment();
 
+                TableEntry currentObservationCount = probTable.get(row, "observations");
+
                 if (sensors.get(SmartAgricultureWorld.SOIL_MOISTURE) == probTable.get(row, "soil moisture, after").getValue()) {
 
-                    TableEntry currentObservationCount = probTable.get(row, "observations");
                     currentObservationCount.increment();
-
                     appendNewRow = false;
 
                 }
+
+                TableEntry currentProbabilityEntry = probTable.get(row, "probability");
+                currentProbabilityEntry.setValue(currentObservationCount.getValue() / currentOpportunityCount.getValue());
             }
         }
 
@@ -107,6 +110,7 @@ public class Brain {
         HashMap<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, lastAction.getValue());
 
+        System.out.println(probTable);
         return actions;
     }
 

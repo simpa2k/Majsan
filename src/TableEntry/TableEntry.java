@@ -22,4 +22,9 @@ public class TableEntry {
     public void increment() {
         value++;
     }
+
+    @Override
+    public String toString() {
+        return "" + value;
+    }
 }

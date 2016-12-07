@@ -2,6 +2,7 @@ package sensorPark;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class SensorPark {
     
@@ -13,8 +14,10 @@ public class SensorPark {
     }
 
     private void retrieveDataFromSensors() {
-        
-        double soilMoisture = 0.3;
+
+        Random random = new Random();
+
+        double soilMoisture = random.nextDouble() * 0.35;
         sensorValues.put("Soil Moisture", soilMoisture);
 
     }
