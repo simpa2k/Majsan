@@ -19,7 +19,7 @@ public class SensorPark {
 
     private void retrieveDataFromSensors() {
 
-        double soilMoisture = random.nextInt() * 0.35;
+        double soilMoisture = random.nextInt(3) * 0.35;
         sensorValues.put("Soil Moisture", soilMoisture);
 
     }
