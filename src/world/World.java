@@ -1,9 +1,8 @@
 package world;
 
+import brain.Brain;
 import java.util.HashMap;
 import java.util.Map;
-
-import brain.Brain;
 
 public class World {
 

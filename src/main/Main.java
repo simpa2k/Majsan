@@ -1,9 +1,7 @@
 package main;
 
 import connector.Connector;
-
 import sensorPark.SensorPark;
-
 import world.SmartAgricultureWorld;
 
 public class Main {

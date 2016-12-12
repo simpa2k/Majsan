@@ -33,21 +33,21 @@ public class Brain {
         ArrayList<Integer> rows = new ArrayList<>();
         for (Integer row : probTable.rowKeySet()) {
 
-            boolean containsValue1 = false;
-            boolean containsValue2 = false;
+            boolean containsLastSoilMoistureValue = false;
+            boolean containsLastActionValue = false;
 
             for (String column : probTable.columnKeySet()) {
 
                 if (probTable.get(row, "soil moisture, before").getValue() == lastSoilMoistureValue) {
-                    containsValue1 = true;
+                    containsLastSoilMoistureValue = true;
                 }
 
                 if (probTable.get(row, "action").getValue() == lastActionValue) {
-                    containsValue2 = true;
+                    containsLastActionValue = true;
                 }
             }
 
-            if(containsValue1 && containsValue2) {
+            if(containsLastSoilMoistureValue && containsLastActionValue) {
                 rows.add(row);
             }
 
