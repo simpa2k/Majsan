@@ -1,3 +1,4 @@
+.gitignore
 .idea
 gradle
 .gradle
@@ -6,3 +7,5 @@ build.gradle
 gradlew
 gradlew.bat
 Majsan.iml
+lib/
+out/
