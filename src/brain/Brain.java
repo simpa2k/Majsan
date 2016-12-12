@@ -28,7 +28,7 @@ public class Brain {
 
     }
 
-    private ArrayList<Integer> tableRowContainsBoth(Double value1, Double value2) {
+    private ArrayList<Integer> tableRowContainsBoth(Double lastSoilMoistureValue, Double lastActionValue) {
 
         ArrayList<Integer> rows = new ArrayList<>();
         for (Integer row : probTable.rowKeySet()) {
@@ -38,11 +38,11 @@ public class Brain {
 
             for (String column : probTable.columnKeySet()) {
 
-                if (probTable.get(row, column).getValue() == value1) {
+                if (probTable.get(row, "soil moisture, before").getValue() == lastSoilMoistureValue) {
                     containsValue1 = true;
                 }
 
-                if (probTable.get(row, column).getValue() == value2) {
+                if (probTable.get(row, "action").getValue() == lastActionValue) {
                     containsValue2 = true;
                 }
             }
