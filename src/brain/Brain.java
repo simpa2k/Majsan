@@ -105,15 +105,21 @@ public class Brain {
 
                 if (diffGoalSMA < diffGoalSMB) {
 
-                    double currentRowProbability = probTable.get(row, "probability").getValue();
-                    double bestRowProbability = probTable.get(rowBestResult, "probability").getValue();
-
-                    if (rowBestResult == null ||
-                            diffGoalSMA < bestDiffGoalSMA ||
-                            ((diffGoalSMA == bestDiffGoalSMA) && (currentRowProbability > bestRowProbability))) {
+                    if (rowBestResult == null || diffGoalSMA < bestDiffGoalSMA){
 
                         rowBestResult = row;
                         bestDiffGoalSMA = diffGoalSMA;
+
+                    }else if(diffGoalSMA == bestDiffGoalSMA){
+
+                        double currentRowProbability = probTable.get(row, "probability").getValue();
+                        double bestRowProbability = probTable.get(rowBestResult, "probability").getValue();
+
+                        if(currentRowProbability > bestRowProbability){
+
+                            rowBestResult = row;
+                            bestDiffGoalSMA = diffGoalSMA;
+                        }
                     }
                 }
             }
@@ -185,7 +191,7 @@ public class Brain {
         HashMap<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, action);
 
-        System.out.println(probTable);
+       System.out.println(probTable);
         return actions;
     }
 

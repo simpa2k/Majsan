@@ -1,4 +1,6 @@
-package sensorPark;
+package communicators;
+
+import world.Environment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,25 +10,20 @@ public class SensorPark {
     
     private int numberOfSensors = 1;
     private Map<String, Double> sensorValues = new HashMap<>();
-    private Random random;
+    private Environment environment;
 
-    public SensorPark() {
 
-        random = new Random();
+    public SensorPark(Environment environment) {
+
+        this.environment = environment;
         retrieveDataFromSensors();
 
     }
 
     private void retrieveDataFromSensors() {
 
-        double soilMoisture = random(0.2, 0.33);
+        double soilMoisture = environment.getSoilMoisture();
         sensorValues.put("Soil Moisture", soilMoisture);
-
-    }
-
-    private double random(double min, double max){
-
-        return Math.random() * (max-min) + min;
 
     }
 

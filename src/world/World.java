@@ -70,5 +70,4 @@ public class World {
         System.out.format("The brain is %s time steps old", brain.getTimeStep());
 
     }
-
 }

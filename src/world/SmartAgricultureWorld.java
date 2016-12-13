@@ -2,7 +2,8 @@ package world;
 
 import java.util.Map;
 
-import sensorPark.SensorPark;
+import communicators.ActuatorPark;
+import communicators.SensorPark;
 
 public class SmartAgricultureWorld extends World {
 
@@ -14,11 +15,13 @@ public class SmartAgricultureWorld extends World {
     private int lastScan;
 
     private SensorPark sensorPark;
+    private ActuatorPark actuatorPark;
 
-    public SmartAgricultureWorld(Integer lifespan, String name, int numSensors, int numActions, SensorPark sensorPark) {
+    public SmartAgricultureWorld(Integer lifespan, String name, int numSensors, int numActions, SensorPark sensorPark, ActuatorPark actuatorPark) {
         
         super(lifespan, name, numSensors, numActions);
         this.sensorPark = sensorPark;
+        this.actuatorPark = actuatorPark;
 
         scan();
 
@@ -33,8 +36,10 @@ public class SmartAgricultureWorld extends World {
 
         timestep += 1;
 
-        double soilMoisture = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
+        actuatorPark.actuate(actions);
+
         double irrigate = actions.get(SmartAgricultureWorld.IRRIGATE);
+        double soilMoisture = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
 
         if (irrigate > 0.5 && !irrigating) {
 
@@ -62,12 +67,13 @@ public class SmartAgricultureWorld extends World {
             reward = 1.0;
         }
 
-        if (timestep - lastScan > 500) {
+       /* if (timestep - lastScan > 1000) {
 
             scan();
             lastScan = timestep;
 
-        }
+        }*/
+        scan();
 
         return new Step(sensors, reward);
 

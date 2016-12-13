@@ -1,21 +1,26 @@
 package main;
 
+import communicators.ActuatorPark;
 import connector.Connector;
-import sensorPark.SensorPark;
+import communicators.SensorPark;
+import world.Environment;
 import world.SmartAgricultureWorld;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        SensorPark sensorPark = new SensorPark();
+        Environment environment = new Environment();
+        ActuatorPark actuatorPark = new ActuatorPark(environment);
+        SensorPark sensorPark = new SensorPark(environment);
 
         SmartAgricultureWorld world = new SmartAgricultureWorld(
-                null, 
+                5000,
                 "Smart Agriculture World", 
                 sensorPark.getNumberOfSensors(), 
                 1, 
-                sensorPark);
+                sensorPark,
+                actuatorPark);
 
         Connector connector = new Connector();
 
