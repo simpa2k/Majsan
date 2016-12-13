@@ -105,7 +105,13 @@ public class Brain {
 
                 if (diffGoalSMA < diffGoalSMB) {
 
-                    if (rowBestResult == null || diffGoalSMA < bestDiffGoalSMA) {
+                    double currentRowProbability = probTable.get(row, "probability").getValue();
+                    double bestRowProbability = probTable.get(rowBestResult, "probability").getValue();
+
+                    if (rowBestResult == null ||
+                            diffGoalSMA < bestDiffGoalSMA ||
+                            ((diffGoalSMA == bestDiffGoalSMA) && (currentRowProbability > bestRowProbability))) {
+
                         rowBestResult = row;
                         bestDiffGoalSMA = diffGoalSMA;
                     }
@@ -114,7 +120,7 @@ public class Brain {
             if (rowBestResult != null) {
                 action = probTable.get(rowBestResult, "action").getValue();
             } else {
-                action = probTable.get(rows.get(0), "action").getValue();
+                action = probTable.get(rows.get(0), "action").getValue() == 0 ? 1 : 0;
             }
         }else{
             action = Math.random() > 0.5 ? 1 : 0;
@@ -173,10 +179,11 @@ public class Brain {
         }
 
         lastSoilMoisture = newSoilMoisture;
-        lastAction.setValue((lastAction.getValue() + 0.2) * sensors.get(SmartAgricultureWorld.SOIL_MOISTURE));
+        double action = makeDecision(sensors);
+        lastAction.setValue(action);
 
         HashMap<String, Double> actions = new HashMap<>();
-        actions.put(SmartAgricultureWorld.IRRIGATE, lastAction.getValue());
+        actions.put(SmartAgricultureWorld.IRRIGATE, action);
 
         System.out.println(probTable);
         return actions;
