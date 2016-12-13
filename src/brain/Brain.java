@@ -55,6 +55,16 @@ public class Brain {
         return rows;
     }
 
+    /*
+
+    1. Finns nuvarande värde? - Om nej: chansa på action. Annars:
+    2. Kolla igenom de rader där nuvarande värde finns.
+    3. Jämför resultat med mål.
+    4. För varje sån rad, jämför SMA och SMB med mål. Mål-SMB > Mål-SMA -> Bra!
+
+    */
+
+
     public Map<String, Double> senseActLearn(Map<String, Double> sensors, double reward) {
 
         timestep += 1;
