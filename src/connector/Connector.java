@@ -10,6 +10,8 @@ import world.World;
 import world.SmartAgricultureWorld;
 import world.Step;
 
+import com.google.common.collect.HashBasedTable;
+
 public class Connector {
 
     public void run(World world) {
@@ -25,8 +27,8 @@ public class Connector {
 
             actions = brain.senseActLearn(step.getSensors(), step.getReward());
             step = world.step(actions);
-            world.visualize(brain);
 
         }
+        brain.printProbTable(false);
     }
 }

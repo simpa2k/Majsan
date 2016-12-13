@@ -191,7 +191,6 @@ public class Brain {
         HashMap<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, action);
 
-       System.out.println(probTable);
         return actions;
     }
 
@@ -199,6 +198,26 @@ public class Brain {
 
         //Placeholder
         return 0;
+    }
+
+    public void printProbTable(boolean oneline) {
+
+        String separator = "\n";
+
+        if(oneline) {
+            separator = " ";
+        }
+
+        for (Integer row : probTable.rowKeySet()) {
+
+            System.out.println("Row: " + row);
+
+            for(String column : probTable.columnKeySet()) {
+                System.out.print("\t" + column + ": " + probTable.get(row, column) + separator);
+            }
+            System.out.print("\n");
+        }
+        
     }
 
     public void visualize() {
