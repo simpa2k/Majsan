@@ -19,6 +19,8 @@ public class Brain {
     private int timestep = 0;
     private int numberOfRows = 0;
 
+    private double soilMoistureGoal = 0.3;
+
     public Brain(String name, TableEntry initialSoilMoisture) {
 
         this.name = name;
@@ -55,14 +57,70 @@ public class Brain {
         return rows;
     }
 
+    private ArrayList<Integer> tableRowContainsValueInColumn(Double value, String columnName) {
+
+        ArrayList<Integer> rows = new ArrayList<>();
+        for (Integer row : probTable.rowKeySet()) {
+
+            boolean containsValue = false;
+
+            if (probTable.get(row, columnName).getValue() == value) {
+                containsValue = true;
+            }
+
+            if(containsValue) {
+                rows.add(row);
+            }
+
+        }
+        return rows;
+    }
+
     /*
 
     1. Finns nuvarande värde? - Om nej: chansa på action. Annars:
     2. Kolla igenom de rader där nuvarande värde finns.
-    3. Jämför resultat med mål.
-    4. För varje sån rad, jämför SMA och SMB med mål. Mål-SMB > Mål-SMA -> Bra!
+    3. För varje sån rad, jämför SMA och SMB med mål. Mål-SMB > Mål-SMA -> Bra!
+            -Om det finns rader där vi kom närmare målet, välj samma handling som tar oss närmast målet.
+            -Om det inte finns rader där vi kom närmare målet, tar vi vilken som helst av dom som vi fick ut och gör motsatt handling.
+             Det spelar ingen roll vilken av dem som är närmst målet.
 
     */
+
+    private double makeDecision(Map<String, Double> sensors) {
+
+        double action;
+        double smb = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
+
+        ArrayList<Integer> rows = tableRowContainsValueInColumn(smb, "soil moisture, before");
+
+        if (!rows.isEmpty()) {
+
+            Integer rowBestResult = null;
+            double bestDiffGoalSMA = 0.0;
+
+            for (Integer row : rows) {
+                double diffGoalSMB = soilMoistureGoal - smb;
+                double diffGoalSMA = soilMoistureGoal - probTable.get(row, "soil moisture, after").getValue();
+
+                if (diffGoalSMA < diffGoalSMB) {
+
+                    if (rowBestResult == null || diffGoalSMA < bestDiffGoalSMA) {
+                        rowBestResult = row;
+                        bestDiffGoalSMA = diffGoalSMA;
+                    }
+                }
+            }
+            if (rowBestResult != null) {
+                action = probTable.get(rowBestResult, "action").getValue();
+            } else {
+                action = probTable.get(rows.get(0), "action").getValue();
+            }
+        }else{
+            action = Math.random() > 0.5 ? 1 : 0;
+        }
+        return action;
+    }
 
 
     public Map<String, Double> senseActLearn(Map<String, Double> sensors, double reward) {
