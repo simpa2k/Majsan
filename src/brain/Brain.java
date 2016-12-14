@@ -48,7 +48,6 @@ public class Brain {
 
             });
 
-
             if(containsValues[0]) {
                 rows.add(row);
             }
