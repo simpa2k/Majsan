@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Majsan.iml" filepath="$PROJECT_DIR$/.idea/modules/Majsan.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Majsan_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Majsan_main.iml" group="Majsan" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Majsan_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Majsan_test.iml" group="Majsan" />
+      <module fileurl="file://$PROJECT_DIR$/gradle/gradle.iml" filepath="$PROJECT_DIR$/gradle/gradle.iml" />
     </modules>
   </component>
 </project>

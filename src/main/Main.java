@@ -15,7 +15,7 @@ public class Main {
         SensorPark sensorPark = new SensorPark(environment);
 
         SmartAgricultureWorld world = new SmartAgricultureWorld(
-                5000,
+                10000,
                 "Smart Agriculture World", 
                 sensorPark.getNumberOfSensors(), 
                 1, 
@@ -25,6 +25,5 @@ public class Main {
         Connector connector = new Connector();
 
         connector.run(world);
-
     }
 }
