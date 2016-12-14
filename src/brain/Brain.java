@@ -65,41 +65,6 @@ public class Brain {
 
     }
 
-    /*private ArrayList<Integer> tableRowContainsBoth(Double lastSoilMoistureValue, Double lastActionValue) {
-
-        ArrayList<Integer> rows = new ArrayList<>();
-        for (Integer row : probTable.rowKeySet()) {
-
-            boolean containsLastSoilMoistureValue = probTable.get(row, "soil moisture, before").getValue() == lastSoilMoistureValue;
-            boolean containsLastActionValue = probTable.get(row, "action").getValue() == lastActionValue;
-
-            if(containsLastSoilMoistureValue && containsLastActionValue) {
-                rows.add(row);
-            }
-
-        }
-        return rows;
-    }*/
-
-    /*private ArrayList<Integer> tableRowContainsValueInColumn(Double value, String columnName) {
-
-        ArrayList<Integer> rows = new ArrayList<>();
-        for (Integer row : probTable.rowKeySet()) {
-
-            boolean containsValue = false;
-
-            if (probTable.get(row, columnName).getValue() == value) {
-                containsValue = true;
-            }
-
-            if(containsValue) {
-                rows.add(row);
-            }
-
-        }
-        return rows;
-    }*/
-
     /*
 
     1. Finns nuvarande värde? - Om nej: chansa på action. Annars:
