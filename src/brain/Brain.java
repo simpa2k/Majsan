@@ -37,16 +37,8 @@ public class Brain {
         ArrayList<Integer> rows = new ArrayList<>();
         for (Integer row : probTable.rowKeySet()) {
 
-            boolean containsLastSoilMoistureValue = false;
-            boolean containsLastActionValue = false;
-
-            if (probTable.get(row, "soil moisture, before").getValue() == lastSoilMoistureValue) {
-                containsLastSoilMoistureValue = true;
-            }
-
-            if (probTable.get(row, "action").getValue() == lastActionValue) {
-                containsLastActionValue = true;
-            }
+            boolean containsLastSoilMoistureValue = probTable.get(row, "soil moisture, before").getValue() == lastSoilMoistureValue;
+            boolean containsLastActionValue = probTable.get(row, "action").getValue() == lastActionValue;
 
             if(containsLastSoilMoistureValue && containsLastActionValue) {
                 rows.add(row);
