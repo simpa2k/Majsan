@@ -26,7 +26,7 @@ public class Brain {
     public Brain(String name, TableEntry initialSoilMoisture) {
 
         this.name = name;
-        lastAction =  new TableEntry(0.15);
+        lastAction =  new TableEntry(0.0);
         lastSoilMoisture = initialSoilMoisture;
 
     }

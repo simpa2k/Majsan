@@ -3,7 +3,7 @@
 gradle
 .gradle
 .lib
-#build.gradle
+build.gradle
 gradlew
 gradlew.bat
 Majsan.iml
@@ -17,5 +17,5 @@ out/
 /.gradle/
 /gradlew
 /Majsan.iml
-#/build.gradle
+/build.gradle
 /gradlew.bat
