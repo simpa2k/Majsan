@@ -79,22 +79,17 @@ public class Brain {
     /**
      * Method to make a decision based on earlier experiences. The decision process is as follows:
      *
-     * Does the provided sensor value exist in the table?
+     *      If the provided sensor value does not exist in the table -> make a random guess as to what to do
+     *      Else ->
      *
-     *      If no -> make a random guess as to what to do.
-     *      If yes ->
+     *          Iterate over the rows where the value is present. For each row ->
      *
-     *          Iterate over the rows where the value is present. For each row:
+     *              If there are one or more rows that took us closer to the goal ->
      *
-     *              If there are one or more rows that took us closer to the goal:
+     *                  Record the index of the row with the best result and how close it got to the goal.
      *
-     *                  Record the index of the row with the best result and how close it got to the goal
-     *
-     *          If a row with a good result was found, perform the same action as recorded on that row.
-     *          Else, pick a row at random from the retrieved ones and perform the opposite action.
-     *
-     *
-     *
+     *          If a row with a good result was found -> perform the same action as recorded on that row.
+     *          Else -> pick a row at random from the retrieved ones and perform the opposite action.
      *
      * @param sensors A sensor value type mapped to a sensor value, e.g. "Soil Moisture" -> 0.25
      * @return action A value of either 0 or 1 representing an action
