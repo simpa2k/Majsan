@@ -90,7 +90,7 @@ public class Brain {
      *          If a row with a good result was found -> perform the same action as recorded on that row.
      *          Else -> pick a row at random from the retrieved ones and perform the opposite action.
      *
-     * @param sensors A sensor value type mapped to a sensor value, e.g. "Soil Moisture" -> 0.25
+     * @param sensors A sensor value type mapped to a sensor value, e.g. "Soil Moisture" -> 0.25.
      * @return action A value of either 0 or 1 representing an action.
      */
 
