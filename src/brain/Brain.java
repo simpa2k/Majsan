@@ -1,6 +1,7 @@
 package brain;
 
 import com.google.common.collect.HashBasedTable;
+import com.sun.deploy.util.ArrayUtil;
 import random.Random;
 import tableEntry.TableEntry;
 import world.SmartAgricultureWorld;
@@ -31,15 +32,23 @@ public class Brain {
 
     }
 
-    private ArrayList<Integer> tableRowContainsBoth(Double lastSoilMoistureValue, Double lastActionValue) {
+    private ArrayList<Integer> tableRowContainsValuesInColumns(Map<String, Double> columnsAndValues) {
 
         ArrayList<Integer> rows = new ArrayList<>();
+
         for (Integer row : probTable.rowKeySet()) {
 
-            boolean containsLastSoilMoistureValue = probTable.get(row, "soil moisture, before").getValue() == lastSoilMoistureValue;
-            boolean containsLastActionValue = probTable.get(row, "action").getValue() == lastActionValue;
+            final boolean[] containsValues = {true};
 
-            if(containsLastSoilMoistureValue && containsLastActionValue) {
+            columnsAndValues.forEach((columnName, value) -> {
+
+                if (probTable.get(row, columnName).getValue() != value) {
+                    containsValues[0] = false;
+                }
+
+            });
+
+            if(containsValues[0]) {
                 rows.add(row);
             }
 
@@ -47,23 +56,13 @@ public class Brain {
         return rows;
     }
 
-    private ArrayList<Integer> tableRowContainsValueInColumn(Double value, String columnName) {
+    private ArrayList<Integer> tableRowContainsValueInColumn(String columnName, double value) {
 
-        ArrayList<Integer> rows = new ArrayList<>();
-        for (Integer row : probTable.rowKeySet()) {
+        Map<String, Double> columnAndValue = new HashMap<>();
+        columnAndValue.put(columnName, value);
 
-            boolean containsValue = false;
+        return tableRowContainsValuesInColumns(columnAndValue);
 
-            if (probTable.get(row, columnName).getValue() == value) {
-                containsValue = true;
-            }
-
-            if(containsValue) {
-                rows.add(row);
-            }
-
-        }
-        return rows;
     }
 
     /*
@@ -82,7 +81,7 @@ public class Brain {
         double action;
         double smb = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
 
-        ArrayList<Integer> rows = tableRowContainsValueInColumn(smb, "soil moisture, before");
+        ArrayList<Integer> rows = tableRowContainsValueInColumn("soil moisture, before", smb);
 
         if (!rows.isEmpty()) {
 
@@ -132,8 +131,14 @@ public class Brain {
 
         timestep += 1;
 
-        ArrayList<Integer> rows = tableRowContainsBoth(lastSoilMoisture.getValue(), lastAction.getValue());
-        TableEntry currentOpportunityCount = null;
+        Map<String, Double> columnsAndValues = new HashMap<>();
+
+        columnsAndValues.put("soil moisture, before", lastSoilMoisture.getValue());
+        columnsAndValues.put("action", lastAction.getValue());
+
+        ArrayList<Integer> rows = tableRowContainsValuesInColumns(columnsAndValues);
+
+         TableEntry currentOpportunityCount = null;
 
         boolean appendNewRow = true;
         if (!rows.isEmpty()) {
