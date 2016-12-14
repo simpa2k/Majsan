@@ -32,7 +32,7 @@ public class Brain {
 
     }
 
-    private ArrayList<Integer> tableRowContainsValuesInColumns(Map<String, Double> columnsAndValues) throws IllegalArgumentException {
+    private ArrayList<Integer> tableRowContainsValuesInColumns(Map<String, Double> columnsAndValues) {
 
         ArrayList<Integer> rows = new ArrayList<>();
 
