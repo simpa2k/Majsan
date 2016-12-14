@@ -16,7 +16,7 @@ public class Connector {
 
     public void run(World world) {
 
-        Brain brain = new Brain("Smart Agriculture Brain", new TableEntry(0.2));
+        Brain brain = new Brain("Smart Agriculture Brain", new TableEntry(0.0));
 
         Map<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, 0.0);
@@ -29,6 +29,6 @@ public class Connector {
             step = world.step(actions);
 
         }
-        brain.printProbTable(false);
+        brain.printProbTable(true);
     }
 }

@@ -1,6 +1,7 @@
 package brain;
 
 import com.google.common.collect.HashBasedTable;
+import random.Random;
 import tableEntry.TableEntry;
 import world.SmartAgricultureWorld;
 
@@ -100,8 +101,8 @@ public class Brain {
             double bestDiffGoalSMA = 0.0;
 
             for (Integer row : rows) {
-                double diffGoalSMB = soilMoistureGoal - smb;
-                double diffGoalSMA = soilMoistureGoal - probTable.get(row, "soil moisture, after").getValue();
+                double diffGoalSMB = Math.abs(soilMoistureGoal - smb);
+                double diffGoalSMA = Math.abs(soilMoistureGoal - probTable.get(row, "soil moisture, after").getValue());
 
                 if (diffGoalSMA < diffGoalSMB) {
 
@@ -126,10 +127,13 @@ public class Brain {
             if (rowBestResult != null) {
                 action = probTable.get(rowBestResult, "action").getValue();
             } else {
-                action = probTable.get(rows.get(0), "action").getValue() == 0 ? 1 : 0;
+                int random = (int) Random.random(0, rows.size()-0.1);
+                action = probTable.get(rows.get(random), "action").getValue() == 0 ? 1 : 0;
             }
         }else{
+
             action = Math.random() > 0.5 ? 1 : 0;
+
         }
         return action;
     }
@@ -171,7 +175,7 @@ public class Brain {
             numberOfRows++;
 
             probTable.put(numberOfRows, "soil moisture, before", lastSoilMoisture);
-            probTable.put(numberOfRows, "action", lastAction);
+            probTable.put(numberOfRows, "action", new TableEntry(lastAction.getValue()));
             probTable.put(numberOfRows, "soil moisture, after", newSoilMoisture);
 
             double opportunities = currentOpportunityCount == null ? 1 : currentOpportunityCount.getValue();
