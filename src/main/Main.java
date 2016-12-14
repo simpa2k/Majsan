@@ -25,6 +25,5 @@ public class Main {
         Connector connector = new Connector();
 
         connector.run(world);
-
     }
 }
