@@ -56,7 +56,7 @@ public class Brain {
         return rows;
     }
 
-    private ArrayList<Integer> tableRowContainsValueInColumn(double value, String columnName) {
+    private ArrayList<Integer> tableRowContainsValueInColumn(String columnName, double value) {
 
         Map<String, Double> columnAndValue = new HashMap<>();
         columnAndValue.put(columnName, value);
@@ -116,7 +116,7 @@ public class Brain {
         double action;
         double smb = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
 
-        ArrayList<Integer> rows = tableRowContainsValueInColumn(smb, "soil moisture, before");
+        ArrayList<Integer> rows = tableRowContainsValueInColumn("soil moisture, before", smb);
 
         if (!rows.isEmpty()) {
 
