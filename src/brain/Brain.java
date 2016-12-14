@@ -40,15 +40,12 @@ public class Brain {
             boolean containsLastSoilMoistureValue = false;
             boolean containsLastActionValue = false;
 
-            for (String column : probTable.columnKeySet()) {
+            if (probTable.get(row, "soil moisture, before").getValue() == lastSoilMoistureValue) {
+                containsLastSoilMoistureValue = true;
+            }
 
-                if (probTable.get(row, "soil moisture, before").getValue() == lastSoilMoistureValue) {
-                    containsLastSoilMoistureValue = true;
-                }
-
-                if (probTable.get(row, "action").getValue() == lastActionValue) {
-                    containsLastActionValue = true;
-                }
+            if (probTable.get(row, "action").getValue() == lastActionValue) {
+                containsLastActionValue = true;
             }
 
             if(containsLastSoilMoistureValue && containsLastActionValue) {

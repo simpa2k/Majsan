@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Majsan.iml" filepath="$PROJECT_DIR$/Majsan.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Majsan.iml" filepath="$PROJECT_DIR$/.idea/modules/Majsan.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Majsan_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Majsan_main.iml" group="Majsan" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Majsan_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Majsan_test.iml" group="Majsan" />
     </modules>
   </component>
 </project>
