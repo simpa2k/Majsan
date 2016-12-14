@@ -1,16 +1,13 @@
 package connector;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import brain.Brain;
-
 import tableEntry.TableEntry;
-import world.World;
 import world.SmartAgricultureWorld;
 import world.Step;
+import world.World;
 
-import com.google.common.collect.HashBasedTable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Connector {
 

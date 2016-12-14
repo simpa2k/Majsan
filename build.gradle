@@ -1,0 +1,15 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceSets.main.java.srcDirs = ['src']
+
+mainClassName = 'main.Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.google.guava', name: 'guava', version: '19.0'
+}

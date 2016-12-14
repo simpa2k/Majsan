@@ -1,7 +1,6 @@
 package brain;
 
 import com.google.common.collect.HashBasedTable;
-import com.sun.deploy.util.ArrayUtil;
 import random.Random;
 import tableEntry.TableEntry;
 import world.SmartAgricultureWorld;
@@ -22,12 +21,12 @@ public class Brain {
     private int timestep = 0;
     private int numberOfRows = 0;
 
-    private double soilMoistureGoal = 0.7;
+    private double soilMoistureGoal = 0.3;
 
     public Brain(String name, TableEntry initialSoilMoisture) {
 
         this.name = name;
-        lastAction =  new TableEntry(0.0);
+        lastAction =  new TableEntry(0.15);
         lastSoilMoisture = initialSoilMoisture;
 
     }
@@ -246,7 +245,7 @@ public class Brain {
             output += "\n";
         }
         return output;
-        
+
     }
 
     public void visualize() {
