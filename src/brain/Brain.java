@@ -64,17 +64,6 @@ public class Brain {
 
     }
 
-    /*
-
-    1. Finns nuvarande värde? - Om nej: chansa på action. Annars:
-    2. Kolla igenom de rader där nuvarande värde finns.
-    3. För varje sån rad, jämför SMA och SMB med mål. Mål-SMB > Mål-SMA -> Bra!
-            -Om det finns rader där vi kom närmare målet, välj samma handling som tar oss närmast målet.
-            -Om det inte finns rader där vi kom närmare målet, tar vi vilken som helst av dom som vi fick ut och gör motsatt handling.
-             Det spelar ingen roll vilken av dem som är närmst målet.
-
-    */
-
     /**
      * Method to make a decision based on earlier experiences. The decision process is as follows:
      *
