@@ -29,6 +29,6 @@ public class Connector {
             step = world.step(actions);
 
         }
-        brain.printProbTable(true);
+       // brain.visualizeProbTable(true);
     }
 }

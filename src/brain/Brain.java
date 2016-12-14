@@ -5,6 +5,7 @@ import random.Random;
 import tableEntry.TableEntry;
 import world.SmartAgricultureWorld;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -185,7 +186,7 @@ public class Brain {
             probTable.put(numberOfRows, "opportunities", new TableEntry((opportunities)));
             probTable.put(numberOfRows, "observations", new TableEntry(observations));
             probTable.put(numberOfRows, "probability", new TableEntry(probability));
-            probTable.put(numberOfRows, "reward", new TableEntry(reward));
+            //probTable.put(numberOfRows, "reward", new TableEntry(reward));
         }
 
         lastSoilMoisture = newSoilMoisture;
@@ -194,6 +195,8 @@ public class Brain {
 
         HashMap<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, action);
+
+        System.out.println(visualizeProbTable(true));
 
         return actions;
     }
@@ -204,8 +207,9 @@ public class Brain {
         return 0;
     }
 
-    public void printProbTable(boolean oneline) {
+    public String visualizeProbTable(boolean oneline) {
 
+        String output = "";
         String separator = "\n";
 
         if(oneline) {
@@ -214,13 +218,17 @@ public class Brain {
 
         for (Integer row : probTable.rowKeySet()) {
 
-            System.out.println("Row: " + row);
+            output += "Row: " + row;
 
             for(String column : probTable.columnKeySet()) {
-                System.out.print("\t" + column + ": " + probTable.get(row, column) + separator);
+                DecimalFormat df = new DecimalFormat("#.##");
+                double value = probTable.get(row, column).getValue();
+
+                output += "\t" + column + ": " + df.format(value) + separator;
             }
-            System.out.print("\n");
+            output += "\n";
         }
+        return output;
         
     }
 

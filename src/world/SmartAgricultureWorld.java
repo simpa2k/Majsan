@@ -1,7 +1,7 @@
 package world;
 
 import java.util.Map;
-
+import java.util.concurrent.TimeUnit;
 import communicators.ActuatorPark;
 import communicators.SensorPark;
 
@@ -10,9 +10,9 @@ public class SmartAgricultureWorld extends World {
     public static final String SOIL_MOISTURE = "Soil Moisture";
     public static final String IRRIGATE = "Irrigate";
 
-    private boolean acted = false;
+   /* private boolean acted = false;
     private boolean irrigating = false;
-    private int lastScan;
+    private int lastScan; */
 
     private SensorPark sensorPark;
     private ActuatorPark actuatorPark;
@@ -41,7 +41,7 @@ public class SmartAgricultureWorld extends World {
         double irrigate = actions.get(SmartAgricultureWorld.IRRIGATE);
         double soilMoisture = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
 
-        if (irrigate > 0.5 && !irrigating) {
+      /*  if (irrigate > 0.5 && !irrigating) {
 
             irrigating = true;
             acted = true;
@@ -65,14 +65,14 @@ public class SmartAgricultureWorld extends World {
             
         } else {
             reward = 1.0;
-        }
-
-       /* if (timestep - lastScan > 1000) {
-
-            scan();
-            lastScan = timestep;
-
         }*/
+
+        System.out.println("Sleep");
+        try{
+            TimeUnit.MILLISECONDS.sleep(1000);
+        }catch(InterruptedException exception){
+
+        }
         scan();
 
         return new Step(sensors, reward);
