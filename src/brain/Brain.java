@@ -21,13 +21,12 @@ public class Brain {
     private int timestep = 0;
     private int numberOfRows = 0;
 
-    private double soilMoistureGoal = 0.3;
+    private double soilMoistureGoal = 0.7;
 
     public Brain(String name, TableEntry initialSoilMoisture) {
 
         this.name = name;
         lastAction =  new TableEntry(0.0);
-
         lastSoilMoisture = initialSoilMoisture;
 
     }
