@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class Connector {
 
-    public void run(World world) {
+    public void run(World world, double initialSoilMoisture) {
 
-        Brain brain = new Brain("Smart Agriculture Brain", new TableEntry(0.15));
+        Brain brain = new Brain("Smart Agriculture Brain", new TableEntry(initialSoilMoisture));
 
         Map<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, 0.0);
@@ -26,6 +26,5 @@ public class Connector {
             step = world.step(actions);
 
         }
-       // brain.visualizeProbTable(true);
     }
 }

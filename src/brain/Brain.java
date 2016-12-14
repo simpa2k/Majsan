@@ -1,11 +1,8 @@
 package brain;
 
-import com.google.common.collect.HashBasedTable;
-import random.Random;
 import tableEntry.TableEntry;
 import world.SmartAgricultureWorld;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +13,8 @@ public class Brain {
 
     private TableEntry lastSoilMoisture;
     private TableEntry lastAction;
-    private HashBasedTable<Integer, String, TableEntry> probTable = HashBasedTable.create();
+    private BrainTable probTable = new BrainTable();
+    private DecisionMaker decisionMaker;
 
     private int timestep = 0;
     private int numberOfRows = 0;
@@ -28,111 +26,9 @@ public class Brain {
         this.name = name;
         lastAction =  new TableEntry(0.0);
         lastSoilMoisture = initialSoilMoisture;
+        decisionMaker = new DecisionMaker(probTable, soilMoistureGoal);
 
     }
-
-    private ArrayList<Integer> tableRowContainsValuesInColumns(Map<String, Double> columnsAndValues) {
-
-        ArrayList<Integer> rows = new ArrayList<>();
-
-        for (Integer row : probTable.rowKeySet()) {
-
-            final boolean[] containsValues = {true};
-
-            columnsAndValues.forEach((columnName, value) -> {
-
-                if (probTable.get(row, columnName).getValue() != value) {
-                    containsValues[0] = false;
-                }
-
-            });
-
-            if(containsValues[0]) {
-                rows.add(row);
-            }
-
-        }
-        return rows;
-    }
-
-    private ArrayList<Integer> tableRowContainsValueInColumn(String columnName, double value) {
-
-        Map<String, Double> columnAndValue = new HashMap<>();
-        columnAndValue.put(columnName, value);
-
-        return tableRowContainsValuesInColumns(columnAndValue);
-
-    }
-
-    /**
-     * Method to make a decision based on earlier experiences. The decision process is as follows:
-     *
-     *      If the provided sensor value does not exist in the table -> make a random guess as to what to do.
-     *      Else ->
-     *
-     *          Iterate over the rows where the value is present. For each row ->
-     *
-     *              If there are one or more rows that took us closer to the goal ->
-     *
-     *                  Record the index of the row with the best result and how close it got to the goal.
-     *
-     *          If a row with a good result was found -> perform the same action as recorded on that row.
-     *          Else -> pick a row at random from the retrieved ones and perform the opposite action.
-     *
-     * @param sensors A sensor value type mapped to a sensor value, e.g. "Soil Moisture" -> 0.25.
-     * @return action A value of either 0 or 1 representing an action.
-     */
-
-    private double makeDecision(Map<String, Double> sensors) {
-
-        double action;
-        double smb = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
-
-        ArrayList<Integer> rows = tableRowContainsValueInColumn("soil moisture, before", smb);
-
-        if (!rows.isEmpty()) {
-
-            Integer rowBestResult = null;
-            double bestDiffGoalSMA = 0.0;
-
-            for (Integer row : rows) {
-                double diffGoalSMB = Math.abs(soilMoistureGoal - smb);
-                double diffGoalSMA = Math.abs(soilMoistureGoal - probTable.get(row, "soil moisture, after").getValue());
-
-                if (diffGoalSMA < diffGoalSMB) {
-
-                    if (rowBestResult == null || diffGoalSMA < bestDiffGoalSMA){
-
-                        rowBestResult = row;
-                        bestDiffGoalSMA = diffGoalSMA;
-
-                    }else if(diffGoalSMA == bestDiffGoalSMA){
-
-                        double currentRowProbability = probTable.get(row, "probability").getValue();
-                        double bestRowProbability = probTable.get(rowBestResult, "probability").getValue();
-
-                        if(currentRowProbability > bestRowProbability){
-
-                            rowBestResult = row;
-                            bestDiffGoalSMA = diffGoalSMA;
-                        }
-                    }
-                }
-            }
-            if (rowBestResult != null) {
-                action = probTable.get(rowBestResult, "action").getValue();
-            } else {
-                int random = (int) Random.random(0, rows.size()-0.1);
-                action = probTable.get(rows.get(random), "action").getValue() == 0 ? 1 : 0;
-            }
-        }else{
-
-            action = Math.random() > 0.5 ? 1 : 0;
-
-        }
-        return action;
-    }
-
 
     public Map<String, Double> senseActLearn(Map<String, Double> sensors, double reward) {
 
@@ -143,7 +39,7 @@ public class Brain {
         columnsAndValues.put("soil moisture, before", lastSoilMoisture.getValue());
         columnsAndValues.put("action", lastAction.getValue());
 
-        ArrayList<Integer> rows = tableRowContainsValuesInColumns(columnsAndValues);
+        ArrayList<Integer> rows = probTable.tableRowContainsValuesInColumns(columnsAndValues);
 
          TableEntry currentOpportunityCount = null;
 
@@ -190,13 +86,13 @@ public class Brain {
         }
 
         lastSoilMoisture = newSoilMoisture;
-        double action = makeDecision(sensors);
+        double action = decisionMaker.makeDecision(sensors);
         lastAction.setValue(action);
 
         HashMap<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, action);
 
-        System.out.println(visualizeProbTable(true));
+        System.out.println(probTable.visualizeTable(true));
 
         return actions;
     }
@@ -205,31 +101,6 @@ public class Brain {
 
         //Placeholder
         return 0;
-    }
-
-    public String visualizeProbTable(boolean oneline) {
-
-        String output = "";
-        String separator = "\n";
-
-        if(oneline) {
-            separator = " ";
-        }
-
-        for (Integer row : probTable.rowKeySet()) {
-
-            output += "Row: " + row;
-
-            for(String column : probTable.columnKeySet()) {
-                DecimalFormat df = new DecimalFormat("#.##");
-                double value = probTable.get(row, column).getValue();
-
-                output += "\t" + column + ": " + df.format(value) + separator;
-            }
-            output += "\n";
-        }
-        return output;
-
     }
 
     public void visualize() {

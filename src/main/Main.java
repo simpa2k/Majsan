@@ -10,20 +10,21 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Environment environment = new Environment();
+        double initialSoilMoisture = 0.15;
+        Environment environment = new Environment(initialSoilMoisture);
         ActuatorPark actuatorPark = new ActuatorPark(environment);
         SensorPark sensorPark = new SensorPark(environment);
 
         SmartAgricultureWorld world = new SmartAgricultureWorld(
                 10000,
-                "Smart Agriculture World", 
-                sensorPark.getNumberOfSensors(), 
-                1, 
+                "Smart Agriculture World",
+                sensorPark.getNumberOfSensors(),
+                1,
                 sensorPark,
                 actuatorPark);
 
         Connector connector = new Connector();
 
-        connector.run(world);
+        connector.run(world, initialSoilMoisture);
     }
 }

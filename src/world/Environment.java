@@ -10,12 +10,17 @@ import java.math.RoundingMode;
  */
 public class Environment {
 
+    private double soilMoisture;
+
+    public Environment(double soilMoisture) {
+        this.soilMoisture = soilMoisture;
+    }
+
     private double random(double min, double max){
 
         return Math.random() * (max-min) + min;
 
     }
-    private double soilMoisture = 0.15;
 
     public void affectSoilMoisture(double irrigate){
 
