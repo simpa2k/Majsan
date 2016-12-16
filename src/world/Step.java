@@ -1,20 +1,22 @@
 package world;
 
+import tableEntry.ContextualizedTableEntry;
+
 import java.util.Map;
 
 public class Step {
 
-    private Map<String, Double> sensors;
+    private Map<String, ContextualizedTableEntry> sensors;
     private double reward;
 
-    public Step(Map<String, Double> sensors, double reward) {
+    public Step(Map<String, ContextualizedTableEntry> sensors, double reward) {
 
         this.sensors = sensors;
         this.reward = reward;
         
     }
 
-    public Map<String, Double> getSensors() {
+    public Map<String, ContextualizedTableEntry> getSensors() {
         return sensors;
     }
 

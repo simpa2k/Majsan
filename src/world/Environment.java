@@ -1,6 +1,5 @@
 package world;
 
-import random.Random;
 import tableEntry.ContextualizedTableEntry;
 
 import java.math.BigDecimal;
@@ -12,7 +11,7 @@ import java.math.RoundingMode;
 public class Environment {
 
     private ContextualizedTableEntry soilMoisture;
-    private int clock = 0;
+    public static int clock = 0;
     private TimeOfYear[] timeOfYear = {TimeOfYear.SUMMER, TimeOfYear.AUTUMN, TimeOfYear.WINTER, TimeOfYear.SPRING};
 
     public Environment(ContextualizedTableEntry soilMoisture) {
@@ -29,8 +28,9 @@ public class Environment {
 
 
         double soilMoistureValue = soilMoisture.getValue();
-        double unroundedSoilMoisture = (soilMoistureValue - Random.random(0.0, 0.05)) + (irrigate * 0.05);
-
+        double unroundedSoilMoisture = (soilMoistureValue - random(0.0, 0.05)) + (irrigate * 0.05);
+       // double unroundedSoilMoisture = soilMoistureValue + ((clock % timeOfYear.length) * 0.1);
+        System.out.println(unroundedSoilMoisture);
         /*if(irrigate == 0) {
             soilMoisture -= 0.05;
         }else{
@@ -55,9 +55,11 @@ public class Environment {
 
         soilMoisture.setValue(bigDecimalSoilMoisture.doubleValue());
         soilMoisture.setWhen(timeOfYear[clock % timeOfYear.length]);
+        clock++;
+        System.out.println(soilMoisture);
     }
 
-    public double getSoilMoisture(){
-        return soilMoisture.getValue();
+    public ContextualizedTableEntry getSoilMoisture(){
+        return soilMoisture;
     }
 }

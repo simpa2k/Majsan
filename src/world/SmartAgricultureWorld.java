@@ -1,9 +1,11 @@
 package world;
 
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import communicators.ActuatorPark;
 import communicators.SensorPark;
+import tableEntry.ContextualizedTableEntry;
+
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class SmartAgricultureWorld extends World {
 
@@ -39,7 +41,7 @@ public class SmartAgricultureWorld extends World {
         actuatorPark.actuate(actions);
 
         double irrigate = actions.get(SmartAgricultureWorld.IRRIGATE);
-        double soilMoisture = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
+        ContextualizedTableEntry soilMoisture = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
 
       /*  if (irrigate > 0.5 && !irrigating) {
 

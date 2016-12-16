@@ -23,8 +23,7 @@ public class BrainTable{
             final boolean[] containsValues = {true};
 
             columnsAndValues.forEach((columnName, tableEntry) -> {
-
-                if (table.get(row, columnName).equals(tableEntry)) {
+                if (!(table.get(row, columnName).equals(tableEntry))) {
                     containsValues[0] = false;
                     // Check if the loop can be broken here
                 }

@@ -1,6 +1,8 @@
 package world;
 
 import brain.Brain;
+import tableEntry.ContextualizedTableEntry;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +17,7 @@ public class World {
     private int worldVisualizePeriod = 0x1e6;
     private int brainVisualizePeriod = 0x1e4;
 
-    protected Map<String, Double> sensors = new HashMap<>();
+    protected Map<String, ContextualizedTableEntry> sensors = new HashMap<>();
     protected Map<String, Double> actions = new HashMap<>();
 
     protected double reward;
@@ -41,7 +43,7 @@ public class World {
     public Step step(Map<String, Double> actions) {
         
         timestep += 1;
-        sensors = new HashMap<String, Double>();
+        sensors = new HashMap<String, ContextualizedTableEntry>();
         reward = 0;
 
         return new Step(sensors, reward);

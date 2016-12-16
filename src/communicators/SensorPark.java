@@ -1,15 +1,15 @@
 package communicators;
 
+import tableEntry.ContextualizedTableEntry;
 import world.Environment;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class SensorPark {
     
     private int numberOfSensors = 1;
-    private Map<String, Double> sensorValues = new HashMap<>();
+    private Map<String, ContextualizedTableEntry> sensorValues = new HashMap<>();
     private Environment environment;
 
 
@@ -22,12 +22,12 @@ public class SensorPark {
 
     private void retrieveDataFromSensors() {
 
-        double soilMoisture = environment.getSoilMoisture();
+        ContextualizedTableEntry soilMoisture = environment.getSoilMoisture();
         sensorValues.put("Soil Moisture", soilMoisture);
 
     }
 
-    public Map<String, Double> getSensorValues() {
+    public Map<String, ContextualizedTableEntry> getSensorValues() {
 
         retrieveDataFromSensors();
         return sensorValues;

@@ -48,7 +48,7 @@ public class ContextualizedTableEntry extends TableEntry {
 
         ContextualizedTableEntry other = (ContextualizedTableEntry) obj;
 
-        return (super.equals(other)) && (other.when == this.when);
+        return (super.equals(other)) && (other.when.equals(this.when));
     }
 
     @Override

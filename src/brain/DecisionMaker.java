@@ -1,6 +1,7 @@
 package brain;
 
 import random.Random;
+import tableEntry.ContextualizedTableEntry;
 import tableEntry.TableEntry;
 import world.SmartAgricultureWorld;
 
@@ -40,12 +41,13 @@ public class DecisionMaker {
      * @return action A value of either 0 or 1 representing an action.
      */
 
-    protected double makeDecision(Map<String, Double> sensors) {
+    protected double makeDecision(Map<String, ContextualizedTableEntry> sensors) {
 
         double action;
-        double smb = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
+        TableEntry smb = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
+        double smbValue = smb.getValue();
 
-        ArrayList<Integer> rows = probTable.tableRowContainsValueInColumn("soil moisture, before", new TableEntry(smb));
+        ArrayList<Integer> rows = probTable.tableRowContainsValueInColumn("soil moisture, before", smb);
 
         if (!rows.isEmpty()) {
 
@@ -53,7 +55,7 @@ public class DecisionMaker {
             double bestDiffGoalSMA = 0.0;
 
             for (Integer row : rows) {
-                double diffGoalSMB = Math.abs(soilMoistureGoal - smb);
+                double diffGoalSMB = Math.abs(soilMoistureGoal - smbValue);
                 double diffGoalSMA = Math.abs(soilMoistureGoal - probTable.get(row, "soil moisture, after").getValue());
 
                 if (diffGoalSMA < diffGoalSMB) {

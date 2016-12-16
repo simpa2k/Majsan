@@ -31,7 +31,7 @@ public class Brain {
 
     }
 
-    public Map<String, Double> senseActLearn(Map<String, Double> sensors, double reward) {
+    public Map<String, Double> senseActLearn(Map<String, ContextualizedTableEntry> sensors, double reward) {
 
         timestep += 1;
 
@@ -54,8 +54,8 @@ public class Brain {
 
                 TableEntry currentObservationCount = probTable.get(row, "observations");
 
-                if (sensors.get(SmartAgricultureWorld.SOIL_MOISTURE) == probTable.get(row, "soil moisture, after").getValue()) {
-
+               if (sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getValue() == probTable.get(row, "soil moisture, after").getValue()) {
+//                if (sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).equals(probTable.get(row, "soil moisture, after"))){
                     currentObservationCount.increment();
                     appendNewRow = false;
 
@@ -66,18 +66,16 @@ public class Brain {
             }
         }
 
-        ContextualizedTableEntry newSoilMoisture = new ContextualizedTableEntry(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE),
-                lastSoilMoisture.getWho(),
-                lastSoilMoisture.getWhen(),
-                lastSoilMoisture.getWhich());
-
         if(appendNewRow) {
 
             numberOfRows++;
 
             probTable.put(numberOfRows, "soil moisture, before", lastSoilMoisture);
             probTable.put(numberOfRows, "action", new TableEntry(lastAction.getValue()));
-            probTable.put(numberOfRows, "soil moisture, after", newSoilMoisture);
+            probTable.put(numberOfRows, "soil moisture, after", new ContextualizedTableEntry(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getValue(),
+                    lastSoilMoisture.getWho(),
+                    lastSoilMoisture.getWhen(),
+                    lastSoilMoisture.getWhich()));
 
             double opportunities = currentOpportunityCount == null ? 1 : currentOpportunityCount.getValue();
             double observations = 1;
@@ -89,7 +87,7 @@ public class Brain {
             //probTable.put(numberOfRows, "reward", new TableEntry(reward));
         }
 
-        lastSoilMoisture = newSoilMoisture;
+        lastSoilMoisture = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
         double action = decisionMaker.makeDecision(sensors);
         lastAction.setValue(action);
 
