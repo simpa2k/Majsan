@@ -3,7 +3,6 @@ package brain;
 import com.google.common.collect.HashBasedTable;
 import tableEntry.TableEntry;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +14,7 @@ public class BrainTable{
 
     private HashBasedTable <Integer, String, TableEntry> table = HashBasedTable.create();
 
-    public ArrayList<Integer> tableRowContainsValuesInColumns(Map<String, Double> columnsAndValues) {
+    public ArrayList<Integer> tableRowContainsValuesInColumns(Map<String, TableEntry> columnsAndValues) {
 
         ArrayList<Integer> rows = new ArrayList<>();
 
@@ -23,9 +22,9 @@ public class BrainTable{
 
             final boolean[] containsValues = {true};
 
-            columnsAndValues.forEach((columnName, value) -> {
+            columnsAndValues.forEach((columnName, tableEntry) -> {
 
-                if (table.get(row, columnName).getValue() != value) {
+                if (table.get(row, columnName).equals(tableEntry)) {
                     containsValues[0] = false;
                     // Check if the loop can be broken here
                 }
@@ -40,10 +39,10 @@ public class BrainTable{
         return rows;
     }
 
-    public ArrayList<Integer> tableRowContainsValueInColumn(String columnName, double value) {
+    public ArrayList<Integer> tableRowContainsValueInColumn(String columnName, TableEntry tableEntry) {
 
-        Map<String, Double> columnAndValue = new HashMap<>();
-        columnAndValue.put(columnName, value);
+        Map<String, TableEntry> columnAndValue = new HashMap<>();
+        columnAndValue.put(columnName, tableEntry);
 
         return tableRowContainsValuesInColumns(columnAndValue);
 
@@ -74,10 +73,9 @@ public class BrainTable{
             output += "Row: " + row;
 
             for(String column : table.columnKeySet()) {
-                DecimalFormat df = new DecimalFormat("#.##");
-                double value = table.get(row, column).getValue();
+                TableEntry value = table.get(row, column);
 
-                output += "\t" + column + ": " + df.format(value) + separator;
+                output += "\t" + column + ": " + value.toString() + separator;
             }
             output += "\n";
         }

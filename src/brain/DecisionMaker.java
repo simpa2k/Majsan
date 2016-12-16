@@ -1,6 +1,7 @@
 package brain;
 
 import random.Random;
+import tableEntry.TableEntry;
 import world.SmartAgricultureWorld;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class DecisionMaker {
         double action;
         double smb = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
 
-        ArrayList<Integer> rows = probTable.tableRowContainsValueInColumn("soil moisture, before", smb);
+        ArrayList<Integer> rows = probTable.tableRowContainsValueInColumn("soil moisture, before", new TableEntry(smb));
 
         if (!rows.isEmpty()) {
 

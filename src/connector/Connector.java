@@ -1,7 +1,7 @@
 package connector;
 
 import brain.Brain;
-import tableEntry.TableEntry;
+import tableEntry.ContextualizedTableEntry;
 import world.SmartAgricultureWorld;
 import world.Step;
 import world.World;
@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class Connector {
 
-    public void run(World world, double initialSoilMoisture) {
+    public void run(World world, ContextualizedTableEntry initialSoilMoisture) {
 
-        Brain brain = new Brain("Smart Agriculture Brain", new TableEntry(initialSoilMoisture));
+        Brain brain = new Brain("Smart Agriculture Brain", initialSoilMoisture);
 
         Map<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, 0.0);

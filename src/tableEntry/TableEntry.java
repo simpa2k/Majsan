@@ -5,7 +5,7 @@ package tableEntry;
  */
 public class TableEntry {
 
-    private double value;
+    protected double value;
 
     public TableEntry(double value) {
         this.value = value;
@@ -26,4 +26,17 @@ public class TableEntry {
     public String toString(){
         return "" + value;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (!(obj instanceof  TableEntry) || obj == null) {
+            return false;
+        }
+
+        TableEntry other = (TableEntry) obj;
+
+        return (other.value == this.value);
+    }
+
 }

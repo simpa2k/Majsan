@@ -1,5 +1,6 @@
 package brain;
 
+import tableEntry.ContextualizedTableEntry;
 import tableEntry.TableEntry;
 import world.SmartAgricultureWorld;
 
@@ -11,7 +12,7 @@ public class Brain {
 
     private String name;
 
-    private TableEntry lastSoilMoisture;
+    private ContextualizedTableEntry lastSoilMoisture;
     private TableEntry lastAction;
     private BrainTable probTable = new BrainTable();
     private DecisionMaker decisionMaker;
@@ -21,7 +22,7 @@ public class Brain {
 
     private double soilMoistureGoal = 0.3;
 
-    public Brain(String name, TableEntry initialSoilMoisture) {
+    public Brain(String name, ContextualizedTableEntry initialSoilMoisture) {
 
         this.name = name;
         lastAction =  new TableEntry(0.0);
@@ -34,10 +35,10 @@ public class Brain {
 
         timestep += 1;
 
-        Map<String, Double> columnsAndValues = new HashMap<>();
+        Map<String, TableEntry> columnsAndValues = new HashMap<>();
 
-        columnsAndValues.put("soil moisture, before", lastSoilMoisture.getValue());
-        columnsAndValues.put("action", lastAction.getValue());
+        columnsAndValues.put("soil moisture, before", lastSoilMoisture);
+        columnsAndValues.put("action", lastAction);
 
         ArrayList<Integer> rows = probTable.tableRowContainsValuesInColumns(columnsAndValues);
 
@@ -65,7 +66,10 @@ public class Brain {
             }
         }
 
-        TableEntry newSoilMoisture = new TableEntry(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE));
+        ContextualizedTableEntry newSoilMoisture = new ContextualizedTableEntry(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE),
+                lastSoilMoisture.getWho(),
+                lastSoilMoisture.getWhen(),
+                lastSoilMoisture.getWhich());
 
         if(appendNewRow) {
 

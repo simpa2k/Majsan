@@ -1,16 +1,19 @@
 package main;
 
 import communicators.ActuatorPark;
-import connector.Connector;
 import communicators.SensorPark;
+import connector.Connector;
+import tableEntry.ContextualizedTableEntry;
 import world.Environment;
 import world.SmartAgricultureWorld;
+import world.TimeOfYear;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        double initialSoilMoisture = 0.15;
+
+        ContextualizedTableEntry initialSoilMoisture = new ContextualizedTableEntry(0.15, "SoilMoistureSensor", TimeOfYear.SUMMER, "Irrigator");
         Environment environment = new Environment(initialSoilMoisture);
         ActuatorPark actuatorPark = new ActuatorPark(environment);
         SensorPark sensorPark = new SensorPark(environment);
