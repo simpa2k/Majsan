@@ -8,10 +8,12 @@ import java.util.Map;
 
 public class SensorPark {
     
-    private int numberOfSensors = 1;
+    private int numberOfSensors = 2;
     private Map<String, ContextualizedTableEntry> sensorValues = new HashMap<>();
     private Environment environment;
 
+    private String soilMoistureWestID = "Soil Moisture WEST";
+    private String soilMoistureEastID = "Soil Moisture EAST";
 
     public SensorPark(Environment environment) {
 
@@ -22,8 +24,11 @@ public class SensorPark {
 
     private void retrieveDataFromSensors() {
 
-        ContextualizedTableEntry soilMoisture = environment.getSoilMoisture();
-        sensorValues.put("Soil Moisture", soilMoisture);
+        ContextualizedTableEntry soilMoistureWest = environment.getSoilMoisture(soilMoistureWestID);
+        sensorValues.put(soilMoistureWestID, soilMoistureWest);
+
+        ContextualizedTableEntry soilMoistureEast = environment.getSoilMoisture(soilMoistureEastID);
+        sensorValues.put(soilMoistureEastID, soilMoistureEast);
 
     }
 

@@ -13,8 +13,9 @@ public class Main {
     public static void main(String[] args) {
 
 
-        ContextualizedTableEntry initialSoilMoisture = new ContextualizedTableEntry(0.15, "SoilMoistureSensor", TimeOfYear.SUMMER, "Irrigator");
-        Environment environment = new Environment(initialSoilMoisture);
+        //ContextualizedTableEntry initialSoilMoisture = new ContextualizedTableEntry(0.15, "SoilMoistureSensor", TimeOfYear.SUMMER, "Irrigator");
+        //Environment environment = new Environment(initialSoilMoisture);
+        Environment environment = new Environment(0.15, TimeOfYear.SUMMER);
         ActuatorPark actuatorPark = new ActuatorPark(environment);
         SensorPark sensorPark = new SensorPark(environment);
 
@@ -28,6 +29,6 @@ public class Main {
 
         Connector connector = new Connector();
 
-        connector.run(world, initialSoilMoisture);
+        connector.run(world, world.calculateSensorAverage());
     }
 }

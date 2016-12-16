@@ -4,12 +4,17 @@ import communicators.ActuatorPark;
 import communicators.SensorPark;
 import tableEntry.ContextualizedTableEntry;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class SmartAgricultureWorld extends World {
 
     public static final String SOIL_MOISTURE = "Soil Moisture";
+    public static final String SOIL_MOISTURE_EAST = "Soil Moisture EAST";
+    public static final String SOIL_MOISTURE_WEST = "Soil Moisture WEST";
     public static final String IRRIGATE = "Irrigate";
 
    /* private boolean acted = false;
@@ -41,7 +46,7 @@ public class SmartAgricultureWorld extends World {
         actuatorPark.actuate(actions);
 
         double irrigate = actions.get(SmartAgricultureWorld.IRRIGATE);
-        ContextualizedTableEntry soilMoisture = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
+        //ContextualizedTableEntry soilMoisture = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
 
       /*  if (irrigate > 0.5 && !irrigating) {
 
@@ -71,14 +76,39 @@ public class SmartAgricultureWorld extends World {
 
         System.out.println("Sleep");
         try{
-            TimeUnit.MILLISECONDS.sleep(1000);
+            TimeUnit.MILLISECONDS.sleep(100);
         }catch(InterruptedException exception){
 
         }
         scan();
+        sensors.put(SmartAgricultureWorld.SOIL_MOISTURE, calculateSensorAverage());
 
         return new Step(sensors, reward);
 
     }
 
+    public ContextualizedTableEntry calculateSensorAverage(){
+
+        ArrayList<ContextualizedTableEntry> entries = new ArrayList<>(sensors.values());
+
+        ContextualizedTableEntry averageEntry = null;
+        double averageSoilMoisture = 0;
+
+        if(!entries.isEmpty()){
+            for(ContextualizedTableEntry entry : entries){
+                averageSoilMoisture += entry.getValue();
+            }
+
+
+            averageSoilMoisture /= entries.size();
+
+            BigDecimal bigDecimalSoilMoisture = new BigDecimal(averageSoilMoisture);
+            bigDecimalSoilMoisture = bigDecimalSoilMoisture.setScale(2, RoundingMode.HALF_UP);
+
+            averageEntry = new ContextualizedTableEntry(bigDecimalSoilMoisture.doubleValue(), entries.get(0).getWhen(), "Irrigate");
+
+        }
+
+        return averageEntry;
+    }
 }

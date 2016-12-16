@@ -9,25 +9,18 @@ import world.TimeOfYear;
  */
 public class ContextualizedTableEntry extends TableEntry {
 
-    private String who; //which sensor
-    //    private String what; //leave it out for the time being
     private TimeOfYear when; //time of year
     private String which; //which actuator, in our case irrigator
 
-    public ContextualizedTableEntry(Double value, String who, TimeOfYear when, String which) {
+    public ContextualizedTableEntry(Double value, TimeOfYear when, String which) {
 
         super(value);
-        this.who = who;
         this.when = when;
         this.which = which;
 
     }
 
-    public String getWho() {
-        return who;
-    }
-
-    public TimeOfYear getWhen() {
+     public TimeOfYear getWhen() {
         return when;
     }
 
@@ -54,7 +47,7 @@ public class ContextualizedTableEntry extends TableEntry {
     @Override
     public String toString(){
 
-        return super.toString() + ", " + who + ", " + when + ", " + which;
+        return super.toString() + ", " + when + ", " + which;
 
     }
 }

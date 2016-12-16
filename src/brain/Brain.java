@@ -66,6 +66,7 @@ public class Brain {
             }
         }
 
+
         if(appendNewRow) {
 
             numberOfRows++;
@@ -73,7 +74,6 @@ public class Brain {
             probTable.put(numberOfRows, "soil moisture, before", lastSoilMoisture);
             probTable.put(numberOfRows, "action", new TableEntry(lastAction.getValue()));
             probTable.put(numberOfRows, "soil moisture, after", new ContextualizedTableEntry(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getValue(),
-                    lastSoilMoisture.getWho(),
                     lastSoilMoisture.getWhen(),
                     lastSoilMoisture.getWhich()));
 
@@ -87,7 +87,11 @@ public class Brain {
             //probTable.put(numberOfRows, "reward", new TableEntry(reward));
         }
 
-        lastSoilMoisture = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
+        ContextualizedTableEntry oldEntry = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
+        ContextualizedTableEntry newEntry = new ContextualizedTableEntry(oldEntry.getValue(), oldEntry.getWhen(), oldEntry.getWhich());
+
+
+        lastSoilMoisture = newEntry;
         double action = decisionMaker.makeDecision(sensors);
         lastAction.setValue(action);
 

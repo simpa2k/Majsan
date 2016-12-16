@@ -1,6 +1,7 @@
 package world;
 
 import tableEntry.ContextualizedTableEntry;
+import tableEntry.NamedContextualizedTableEntry;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -10,12 +11,15 @@ import java.math.RoundingMode;
  */
 public class Environment {
 
-    private ContextualizedTableEntry soilMoisture;
+    private ContextualizedTableEntry soilMoistureWest;
+    private ContextualizedTableEntry soilMoistureEast;
     public static int clock = 0;
+    private int timeOfYearCounter = 0;
     private TimeOfYear[] timeOfYear = {TimeOfYear.SUMMER, TimeOfYear.AUTUMN, TimeOfYear.WINTER, TimeOfYear.SPRING};
 
-    public Environment(ContextualizedTableEntry soilMoisture) {
-        this.soilMoisture = soilMoisture;
+    public Environment(double initialSoilMoisture, TimeOfYear timeOfYear) {
+        this.soilMoistureEast = new NamedContextualizedTableEntry(initialSoilMoisture, timeOfYear, "Irrigator", "Soil Moisture EAST");
+        this.soilMoistureWest = new NamedContextualizedTableEntry(initialSoilMoisture, timeOfYear, "Irrigator", "Soil Moisture WEST");
     }
 
     private double random(double min, double max){
@@ -26,40 +30,46 @@ public class Environment {
 
     public void affectSoilMoisture(double irrigate){
 
+        calculateSoilMoisture(soilMoistureEast, irrigate);
+        calculateSoilMoisture(soilMoistureWest, irrigate);
 
-        double soilMoistureValue = soilMoisture.getValue();
-        double unroundedSoilMoisture = (soilMoistureValue - random(0.0, 0.05)) + (irrigate * 0.05);
-       // double unroundedSoilMoisture = soilMoistureValue + ((clock % timeOfYear.length) * 0.1);
-        System.out.println(unroundedSoilMoisture);
-        /*if(irrigate == 0) {
-            soilMoisture -= 0.05;
-        }else{
-            soilMoisture += 0.05;
-
-        }*/
-
-        if(soilMoistureValue < 0 ){
-            soilMoistureValue = 0;
-        }else if(soilMoistureValue > 1){
-            soilMoistureValue = 1;
+        if(timeOfYearCounter % (365/4) == 0) {
+            clock++;
         }
+        timeOfYearCounter++;
 
-       if(unroundedSoilMoisture < 0 ){
-            unroundedSoilMoisture = 0;
-        }else if(unroundedSoilMoisture > 1){
-            unroundedSoilMoisture = 1;
-        }
-
-        BigDecimal bigDecimalSoilMoisture = new BigDecimal(unroundedSoilMoisture);
-        bigDecimalSoilMoisture = bigDecimalSoilMoisture.setScale(2, RoundingMode.HALF_UP);
-
-        soilMoisture.setValue(bigDecimalSoilMoisture.doubleValue());
-        soilMoisture.setWhen(timeOfYear[clock % timeOfYear.length]);
-        clock++;
-        System.out.println(soilMoisture);
     }
 
-    public ContextualizedTableEntry getSoilMoisture(){
-        return soilMoisture;
+    private void calculateSoilMoisture(ContextualizedTableEntry initialSoilMoisture, double irrigate) {
+
+        double soilMoistureValue = initialSoilMoisture.getValue();
+        double unroundedSoilMoisture = (soilMoistureValue - random(0.0, 0.05)) + (irrigate * 0.05);
+
+        if(unroundedSoilMoisture < 0 ){
+             unroundedSoilMoisture = 0;
+         }else if(unroundedSoilMoisture > 1){
+             unroundedSoilMoisture = 1;
+         }
+
+      /*  BigDecimal bigDecimalSoilMoisture = new BigDecimal(unroundedSoilMoisture);
+        bigDecimalSoilMoisture = bigDecimalSoilMoisture.setScale(2, RoundingMode.HALF_UP);
+
+        initialSoilMoisture.setValue(bigDecimalSoilMoisture.doubleValue()); */
+
+        initialSoilMoisture.setValue(unroundedSoilMoisture);
+
+        initialSoilMoisture.setWhen(timeOfYear[clock % timeOfYear.length]);
+    }
+
+    public ContextualizedTableEntry getSoilMoisture(String ID){
+
+        switch (ID){
+            case "Soil Moisture WEST" :
+                return soilMoistureWest;
+            case "Soil Moisture EAST" :
+                return soilMoistureEast;
+            default:
+                return null;
+        }
     }
 }
