@@ -41,7 +41,7 @@ public class Brain {
 
         ArrayList<Integer> rows = probTable.tableRowContainsValuesInColumns(columnsAndValues);
 
-         TableEntry currentOpportunityCount = null;
+        TableEntry currentOpportunityCount = null;
 
         boolean appendNewRow = true;
         if (!rows.isEmpty()) {
