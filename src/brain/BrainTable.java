@@ -27,6 +27,7 @@ public class BrainTable{
 
                 if (table.get(row, columnName).getValue() != value) {
                     containsValues[0] = false;
+                    // Check if the loop can be broken here
                 }
 
             });

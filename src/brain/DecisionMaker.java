@@ -84,6 +84,9 @@ public class DecisionMaker {
         }else{
 
             action = Math.random() > 0.5 ? 1 : 0;
+            // Might be an idea to loop over the entire table and check which action
+            // that has most often resulted in a reward and pick that action.
+            // More probability oriented solution than the current one.
 
         }
         return action;
