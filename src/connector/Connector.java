@@ -35,7 +35,7 @@ public class Connector {
 
             String dump = world.visualize(brain);
             if(dump != null){
-                dumpToFile(dump + "\n" + (soilMoistureAverage/50));
+                dumpToFile(dump + (soilMoistureAverage/50));
                 soilMoistureAverage = 0;
             }
         }
@@ -45,7 +45,7 @@ public class Connector {
 
         try(BufferedWriter bw = new BufferedWriter((new FileWriter("Dump.txt", true)))){
 
-            bw.write(dump + "\n\n");
+            bw.write(dump + "\n");
         }catch (IOException e){
             e.printStackTrace();
         }

@@ -57,7 +57,7 @@ public abstract class World {
     public String visualize(Brain brain) {
 
         if (timestep % brainVisualizePeriod == 0) {
-            return "Timestep: " + timestep + "\n";
+            return timestep + "; ";
 
         }else{
             return null;
