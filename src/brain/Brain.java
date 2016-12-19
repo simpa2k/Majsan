@@ -12,7 +12,7 @@ public class Brain {
 
     private String name;
 
-    private ContextualizedTableEntry lastSoilMoisture;
+    private Map<String, ContextualizedTableEntry> lastSensorValues;
     private TableEntry lastAction;
     private BrainTable probTable = new BrainTable();
     private DecisionMaker decisionMaker;
@@ -22,12 +22,12 @@ public class Brain {
 
     private double soilMoistureGoal = 0.3;
 
-    public Brain(String name, ContextualizedTableEntry initialSoilMoisture) {
+    public Brain(String name, Map<String, ContextualizedTableEntry> lastSensorValues) {
 
         this.name = name;
-        lastAction =  new TableEntry(0.0);
-        lastSoilMoisture = initialSoilMoisture;
-        decisionMaker = new DecisionMaker(probTable, soilMoistureGoal);
+        this.lastAction =  new TableEntry(0.0);
+        this.lastSensorValues = new HashMap<>(lastSensorValues);
+        this.decisionMaker = new DecisionMaker(probTable, soilMoistureGoal);
 
     }
 
@@ -37,7 +37,15 @@ public class Brain {
 
         Map<String, TableEntry> columnsAndValues = new HashMap<>();
 
-        columnsAndValues.put("soil moisture, before", lastSoilMoisture);
+        lastSensorValues.forEach((sensorID, value) -> {
+            String columnName = sensorID;
+            if(sensorID.equals("Soil Moisture")){
+                columnName += ", before";
+                columnName = columnName.toLowerCase();
+            }
+            columnsAndValues.put(columnName, value);
+        });
+
         columnsAndValues.put("action", lastAction);
 
         ArrayList<Integer> rows = probTable.tableRowContainsValuesInColumns(columnsAndValues);
@@ -71,11 +79,18 @@ public class Brain {
 
             numberOfRows++;
 
-            probTable.put(numberOfRows, "soil moisture, before", lastSoilMoisture);
+            lastSensorValues.forEach((sensorID, value) -> {
+                String columnName = sensorID;
+                if(sensorID.equals("Soil Moisture")){
+                    columnName += ", before";
+                    columnName = columnName.toLowerCase();
+                }
+                probTable.put(numberOfRows, columnName, value);
+            });
             probTable.put(numberOfRows, "action", new TableEntry(lastAction.getValue()));
             probTable.put(numberOfRows, "soil moisture, after", new ContextualizedTableEntry(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getValue(),
-                    lastSoilMoisture.getWhen(),
-                    lastSoilMoisture.getWhich()));
+                    lastSensorValues.get("Soil Moisture").getWhen(),
+                    lastSensorValues.get("Soil Moisture").getWhich()));
 
             double opportunities = currentOpportunityCount == null ? 1 : currentOpportunityCount.getValue();
             double observations = 1;
@@ -87,11 +102,21 @@ public class Brain {
             //probTable.put(numberOfRows, "reward", new TableEntry(reward));
         }
 
-        ContextualizedTableEntry oldEntry = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
-        ContextualizedTableEntry newEntry = new ContextualizedTableEntry(oldEntry.getValue(), oldEntry.getWhen(), oldEntry.getWhich());
+       // ContextualizedTableEntry oldEntry = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
+       // ContextualizedTableEntry newEntry = new ContextualizedTableEntry(oldEntry.getValue(), oldEntry.getWhen(), oldEntry.getWhich());
 
+        sensors.forEach((sensorID, value) -> {
 
-        lastSoilMoisture = newEntry;
+            String columnName = sensorID;
+            if(sensorID.equals("Soil Moisture")){
+                columnName += ", before";
+                columnName = columnName.toLowerCase();
+            }
+
+            ContextualizedTableEntry newEntry = new ContextualizedTableEntry(value.getValue(), value.getWhen(), value.getWhich());
+            lastSensorValues.put(columnName, newEntry);
+        });
+
         double action = decisionMaker.makeDecision(sensors);
         lastAction.setValue(action);
 

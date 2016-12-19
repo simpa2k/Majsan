@@ -6,7 +6,7 @@ import tableEntry.ContextualizedTableEntry;
 import java.util.HashMap;
 import java.util.Map;
 
-public class World {
+public abstract class World {
 
     private int lifespan;
     private String name;
@@ -72,4 +72,6 @@ public class World {
         System.out.format("The brain is %s time steps old", brain.getTimeStep());
 
     }
+
+    public abstract Map<String, ContextualizedTableEntry> getSensors();
 }

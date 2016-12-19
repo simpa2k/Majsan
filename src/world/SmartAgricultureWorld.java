@@ -74,12 +74,12 @@ public class SmartAgricultureWorld extends World {
             reward = 1.0;
         }*/
 
-        System.out.println("Sleep");
+       /* System.out.println("Sleep");
         try{
             TimeUnit.MILLISECONDS.sleep(100);
         }catch(InterruptedException exception){
 
-        }
+        }*/
         scan();
         sensors.put(SmartAgricultureWorld.SOIL_MOISTURE, calculateSensorAverage());
 
@@ -92,23 +92,40 @@ public class SmartAgricultureWorld extends World {
         ArrayList<ContextualizedTableEntry> entries = new ArrayList<>(sensors.values());
 
         ContextualizedTableEntry averageEntry = null;
-        double averageSoilMoisture = 0;
+        final double[] averageSoilMoisture = {0};
+
 
         if(!entries.isEmpty()){
-            for(ContextualizedTableEntry entry : entries){
-                averageSoilMoisture += entry.getValue();
-            }
+            /*for(ContextualizedTableEntry entry : entries){
+                if(entry.equals("Soil Moisture EAST") || entry.equals("Soil Moisture WEST")) {
+                    averageSoilMoisture[0] += entry.getValue();
+                }
+            }*/
 
+            sensors.forEach((sensorID, value) -> {
+                if(sensorID.equals("Soil Moisture EAST") || sensorID.equals("Soul Moisture WEST")){
+                    averageSoilMoisture[0] += value.getValue();
+                }
+            });
 
-            averageSoilMoisture /= entries.size();
+            int numberOfSoilMoistureSensors = 2;
+            averageSoilMoisture[0] /= numberOfSoilMoistureSensors;
 
-            BigDecimal bigDecimalSoilMoisture = new BigDecimal(averageSoilMoisture);
+            BigDecimal bigDecimalSoilMoisture = new BigDecimal(averageSoilMoisture[0]);
             bigDecimalSoilMoisture = bigDecimalSoilMoisture.setScale(2, RoundingMode.HALF_UP);
 
             averageEntry = new ContextualizedTableEntry(bigDecimalSoilMoisture.doubleValue(), entries.get(0).getWhen(), "Irrigate");
 
         }
 
+        sensors.remove("Soil Moisture EAST");
+        sensors.remove("Soil Moisture WEST");
+
         return averageEntry;
+    }
+
+    public Map<String, ContextualizedTableEntry> getSensors(){
+        sensors.put(SmartAgricultureWorld.SOIL_MOISTURE, calculateSensorAverage());
+        return sensors;
     }
 }

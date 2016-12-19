@@ -11,14 +11,15 @@ import java.util.Map;
 
 public class Connector {
 
-    public void run(World world, ContextualizedTableEntry initialSoilMoisture) {
-
-        Brain brain = new Brain("Smart Agriculture Brain", initialSoilMoisture);
+    public void run(World world) {
 
         Map<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, 0.0);
 
         Step step = world.step(actions);
+        Brain brain = new Brain("Smart Agriculture Brain", step.getSensors());
+
+
 
         while(world.isAlive()) {
 
