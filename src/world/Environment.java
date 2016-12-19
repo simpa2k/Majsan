@@ -55,7 +55,7 @@ public class Environment {
     private void calculateSoilMoisture(ContextualizedTableEntry initialSoilMoisture, double irrigate) {
 
         double soilMoistureValue = initialSoilMoisture.getValue();
-        double unroundedSoilMoisture = (soilMoistureValue - random(0.0, 0.05)) + (irrigate * 0.05);
+        double unroundedSoilMoisture = (soilMoistureValue - random(0.0, 0.02)) + (irrigate * 0.02);
 
         if(unroundedSoilMoisture < 0 ){
              unroundedSoilMoisture = 0;
@@ -102,6 +102,7 @@ public class Environment {
         }
 
         temperature.setValue(randomizeSensorValue(temperature.getValue(), minChange, maxChange, lowerBound, upperBound, 0));
+       // temperature.setValue(10);
         temperature.setWhen(getTimeOfYear());
 
     }
@@ -109,6 +110,7 @@ public class Environment {
     private void calculateUvLight(){
 
         uvLight.setValue(randomizeSensorValue(uvLight.getValue(), 0.0, 1.0, 0.0, 5.0, 0));
+        //uvLight.setValue(2);
         uvLight.setWhen(getTimeOfYear());
     }
 

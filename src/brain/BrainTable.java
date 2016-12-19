@@ -81,4 +81,34 @@ public class BrainTable{
         return output;
 
     }
+
+    public String dump(double goal){
+
+        String output = "";
+
+        for(Integer row : table.rowKeySet()){
+
+            for(String column : table.columnKeySet()){
+                TableEntry value = table.get(row, column);
+
+                output += value.getValue() + ";";
+            }
+            double smb = table.get(row, "soil moisture, before").getValue();
+            double sma = table.get(row, "soil moisture, after").getValue();
+
+            double diffGoalSmb = Math.abs(goal - smb);
+            double diffGoalSma = Math.abs(goal - sma);
+
+            if(diffGoalSma < diffGoalSmb){
+                output += 1;
+
+            }else{
+                output += 0;
+            }
+
+            output += ";\n";
+        }
+
+        return output;
+    }
 }

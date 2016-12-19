@@ -73,7 +73,6 @@ public class Brain {
             }
         }
 
-
         if(appendNewRow) {
 
             numberOfRows++;
@@ -122,7 +121,7 @@ public class Brain {
         HashMap<String, Double> actions = new HashMap<>();
         actions.put(SmartAgricultureWorld.IRRIGATE, action);
 
-        System.out.println(probTable.visualizeTable(true));
+       // System.out.println(probTable.visualizeTable(true));
 
         return actions;
     }
@@ -133,8 +132,8 @@ public class Brain {
         return 0;
     }
 
-    public void visualize() {
-        System.out.println("Brain not implemented");
+    public String visualize() {
+       return probTable.dump(soilMoistureGoal);
     }
 
 }

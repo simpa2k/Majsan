@@ -15,7 +15,7 @@ public abstract class World {
     private int numActions;
 
     private int worldVisualizePeriod = 0x1e6;
-    private int brainVisualizePeriod = 0x1e4;
+    private int brainVisualizePeriod = 50;
 
     protected Map<String, ContextualizedTableEntry> sensors = new HashMap<>();
     protected Map<String, Double> actions = new HashMap<>();
@@ -54,14 +54,13 @@ public abstract class World {
         return timestep < lifespan;
     }
 
-    public void visualize(Brain brain) {
+    public String visualize(Brain brain) {
 
         if (timestep % brainVisualizePeriod == 0) {
-            brain.visualize();
-        }
+            return "Timestep: " + timestep + "\n";
 
-        if (timestep % worldVisualizePeriod == 0) {
-            visualizeWorld(brain);
+        }else{
+            return null;
         }
 
     }
@@ -73,5 +72,11 @@ public abstract class World {
 
     }
 
+    public int getTimestep(){
+        return timestep;
+    }
+
     public abstract Map<String, ContextualizedTableEntry> getSensors();
 }
+
+
