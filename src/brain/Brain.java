@@ -63,7 +63,6 @@ public class Brain {
                 TableEntry currentObservationCount = probTable.get(row, "observations");
 
                if (sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getValue() == probTable.get(row, "soil moisture, after").getValue()) {
-//                if (sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).equals(probTable.get(row, "soil moisture, after"))){
                     currentObservationCount.increment();
                     appendNewRow = false;
 
@@ -89,8 +88,8 @@ public class Brain {
             });
             probTable.put(numberOfRows, "action", new TableEntry(lastAction.getValue()));
             probTable.put(numberOfRows, "soil moisture, after", new ContextualizedTableEntry(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getValue(),
-                    lastSensorValues.get("Soil Moisture").getWhen(),
-                    lastSensorValues.get("Soil Moisture").getWhich()));
+                    sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getWhen(),
+                    sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getWhich()));
 
             double opportunities = currentOpportunityCount == null ? 1 : currentOpportunityCount.getValue();
             double observations = 1;

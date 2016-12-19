@@ -6,6 +6,7 @@ import tableEntry.TableEntry;
 import world.SmartAgricultureWorld;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -47,7 +48,18 @@ public class DecisionMaker {
         TableEntry smb = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
         double smbValue = smb.getValue();
 
-        ArrayList<Integer> rows = probTable.tableRowContainsValueInColumn("soil moisture, before", smb);
+        Map<String, TableEntry> valuesAndColumns = new HashMap<>();
+
+        sensors.forEach((sensorID, value) -> {
+            String columnName = sensorID;
+            if(sensorID.equals("Soil Moisture")){
+                columnName += ", before";
+                columnName = columnName.toLowerCase();
+            }
+            valuesAndColumns.put(columnName, value);
+        });
+
+        ArrayList<Integer> rows = probTable.tableRowContainsValuesInColumns(valuesAndColumns);
 
         if (!rows.isEmpty()) {
 

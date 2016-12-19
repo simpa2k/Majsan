@@ -74,12 +74,12 @@ public class SmartAgricultureWorld extends World {
             reward = 1.0;
         }*/
 
-       /* System.out.println("Sleep");
+       System.out.println("Sleep");
         try{
             TimeUnit.MILLISECONDS.sleep(100);
         }catch(InterruptedException exception){
 
-        }*/
+        }
         scan();
         sensors.put(SmartAgricultureWorld.SOIL_MOISTURE, calculateSensorAverage());
 
@@ -89,34 +89,26 @@ public class SmartAgricultureWorld extends World {
 
     public ContextualizedTableEntry calculateSensorAverage(){
 
-        ArrayList<ContextualizedTableEntry> entries = new ArrayList<>(sensors.values());
-
-        ContextualizedTableEntry averageEntry = null;
         final double[] averageSoilMoisture = {0};
+        final TimeOfYear[] currentTimeOfYear = {null};
 
+        sensors.forEach((sensorID, value) -> {
 
-        if(!entries.isEmpty()){
-            /*for(ContextualizedTableEntry entry : entries){
-                if(entry.equals("Soil Moisture EAST") || entry.equals("Soil Moisture WEST")) {
-                    averageSoilMoisture[0] += entry.getValue();
+            if(sensorID.equals("Soil Moisture EAST") || sensorID.equals("Soul Moisture WEST")){
+                if(currentTimeOfYear[0] == null){
+                    currentTimeOfYear[0] = value.getWhen();
                 }
-            }*/
+                averageSoilMoisture[0] += value.getValue();
+            }
+        });
 
-            sensors.forEach((sensorID, value) -> {
-                if(sensorID.equals("Soil Moisture EAST") || sensorID.equals("Soul Moisture WEST")){
-                    averageSoilMoisture[0] += value.getValue();
-                }
-            });
+        int numberOfSoilMoistureSensors = 2;
+        averageSoilMoisture[0] /= numberOfSoilMoistureSensors;
 
-            int numberOfSoilMoistureSensors = 2;
-            averageSoilMoisture[0] /= numberOfSoilMoistureSensors;
+        BigDecimal bigDecimalSoilMoisture = new BigDecimal(averageSoilMoisture[0]);
+        bigDecimalSoilMoisture = bigDecimalSoilMoisture.setScale(2, RoundingMode.HALF_UP);
 
-            BigDecimal bigDecimalSoilMoisture = new BigDecimal(averageSoilMoisture[0]);
-            bigDecimalSoilMoisture = bigDecimalSoilMoisture.setScale(2, RoundingMode.HALF_UP);
-
-            averageEntry = new ContextualizedTableEntry(bigDecimalSoilMoisture.doubleValue(), entries.get(0).getWhen(), "Irrigate");
-
-        }
+        ContextualizedTableEntry averageEntry = new ContextualizedTableEntry(bigDecimalSoilMoisture.doubleValue(), currentTimeOfYear[0], "Irrigate");
 
         sensors.remove("Soil Moisture EAST");
         sensors.remove("Soil Moisture WEST");

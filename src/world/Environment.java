@@ -41,11 +41,11 @@ public class Environment {
         calculateSoilMoisture(soilMoistureEast, irrigate);
         calculateSoilMoisture(soilMoistureWest, irrigate);
 
-        temperature.setWhen(timeOfYear[clock % timeOfYear.length]);
-        uvLight.setWhen(timeOfYear[clock % timeOfYear.length]);
-        windSpeed.setWhen(timeOfYear[clock % timeOfYear.length]);
+        calculateTemperature();
+        calculateUvLight();
+        calculateWindSpeed();
 
-        if(timeOfYearCounter % (365/4) == 0) {
+        if(timeOfYearCounter % (365/4) == 0 && timeOfYearCounter != 0) {
             clock++;
         }
         timeOfYearCounter++;
@@ -63,15 +63,87 @@ public class Environment {
              unroundedSoilMoisture = 1;
          }
 
-      /*  BigDecimal bigDecimalSoilMoisture = new BigDecimal(unroundedSoilMoisture);
-        bigDecimalSoilMoisture = bigDecimalSoilMoisture.setScale(2, RoundingMode.HALF_UP);
-
-        initialSoilMoisture.setValue(bigDecimalSoilMoisture.doubleValue()); */
-
         initialSoilMoisture.setValue(unroundedSoilMoisture);
-
-        initialSoilMoisture.setWhen(timeOfYear[clock % timeOfYear.length]);
+        initialSoilMoisture.setWhen(getTimeOfYear());
     }
+
+    private TimeOfYear getTimeOfYear() {
+        return timeOfYear[clock % timeOfYear.length];
+    }
+
+    private void calculateTemperature(){
+
+        double minChange = 0.0;
+        double maxChange = 0.0;
+        double lowerBound = 0.0;
+        double upperBound = 0.0;
+
+        switch(getTimeOfYear()){
+            case SUMMER:
+                maxChange = 1.0;
+                lowerBound = 16.0;
+                upperBound = 30.0;
+                break;
+            case AUTUMN:
+                maxChange = 3.0;
+                lowerBound = 3.0;
+                upperBound = 14.0;
+                break;
+            case WINTER:
+                maxChange = 2.0;
+                lowerBound = -20.0;
+                upperBound = 0.0;
+                break;
+            case SPRING:
+                maxChange = 3.0;
+                lowerBound = 5.0;
+                upperBound = 15.0;
+                break;
+        }
+
+        temperature.setValue(randomizeSensorValue(temperature.getValue(), minChange, maxChange, lowerBound, upperBound, 0));
+        temperature.setWhen(getTimeOfYear());
+
+    }
+
+    private void calculateUvLight(){
+
+        uvLight.setValue(randomizeSensorValue(uvLight.getValue(), 0.0, 1.0, 0.0, 5.0, 0));
+        uvLight.setWhen(getTimeOfYear());
+    }
+
+    private void calculateWindSpeed(){
+
+        windSpeed.setValue(randomizeSensorValue(windSpeed.getValue(), 0.0, 0.1, 0, 32.7, 1));
+        windSpeed.setWhen(getTimeOfYear());
+    }
+
+    private double randomizeSensorValue(double value, double minChange, double maxChange, double lowerBound, double upperBound, int decimals) {
+        boolean add = random(0, 1) > 0.5;
+
+        if(add) {
+            value += random(minChange, maxChange);
+        }else{
+            value -= random(minChange, maxChange);
+        }
+
+        if(value < lowerBound){
+            value = lowerBound;
+        }else if(value > upperBound){
+            value = upperBound;
+        }
+        return round(value, decimals);
+    }
+
+    private double round(double value, int decimals){
+
+        BigDecimal bigDecimal = new BigDecimal(value);
+        bigDecimal = bigDecimal.setScale(decimals, RoundingMode.HALF_UP);
+
+        return bigDecimal.doubleValue();
+
+    }
+
 
     public ContextualizedTableEntry getSensorLevels(String ID){
 
