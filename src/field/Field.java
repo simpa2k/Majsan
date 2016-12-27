@@ -34,7 +34,7 @@ public abstract class Field {
 
     }
 
-    public Step step(Map<String, Double> actions) {
+    /*public Step step(Map<String, Double> actions) {
         
         timestep += 1;
         sensors = new HashMap<String, ContextualizedTableEntry>();
@@ -42,7 +42,8 @@ public abstract class Field {
 
         return new Step(sensors, reward);
 
-    }
+    }*/
+    public abstract Step step(Map<String, Double> actions);
 
     public boolean isAlive() {
         return timestep < lifespan;
