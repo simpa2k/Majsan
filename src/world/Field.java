@@ -11,10 +11,7 @@ public abstract class Field {
     private int lifespan;
     private String name;
     protected int timestep;
-    private int numSensors;
-    private int numActions;
 
-    private int worldVisualizePeriod = 0x1e6;
     private int brainVisualizePeriod = 50;
 
     protected Map<String, ContextualizedTableEntry> sensors = new HashMap<>();
@@ -22,7 +19,7 @@ public abstract class Field {
 
     protected double reward;
 
-    public Field(Integer lifespan, String name, int numSensors, int numActions) {
+    public Field(Integer lifespan, String name) {
         
         if (lifespan == null) {
             this.lifespan = (int) Math.pow(10, 5);
@@ -32,9 +29,6 @@ public abstract class Field {
 
         this.name = name;
         this.timestep = -1;
-
-        this.numSensors = numSensors;
-        this.numActions = numActions;
 
         reward = 0;
 

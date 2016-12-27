@@ -23,9 +23,11 @@ public class BrainTable{
             final boolean[] containsValues = {true};
 
             columnsAndValues.forEach((columnName, tableEntry) -> {
+
                 if (!(table.get(row, columnName).equals(tableEntry))) {
                     containsValues[0] = false;
-                    // Check if the loop can be broken here
+                    // ToDo: Check if the loop can be broken here
+
                 }
 
             });
@@ -36,15 +38,6 @@ public class BrainTable{
 
         }
         return rows;
-    }
-
-    public ArrayList<Integer> tableRowContainsValueInColumn(String columnName, TableEntry tableEntry) {
-
-        Map<String, TableEntry> columnAndValue = new HashMap<>();
-        columnAndValue.put(columnName, tableEntry);
-
-        return tableRowContainsValuesInColumns(columnAndValue);
-
     }
 
     public TableEntry get(Integer rowKey, String columnKey) {

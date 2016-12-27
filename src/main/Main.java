@@ -15,16 +15,14 @@ public class Main {
         ActuatorPark actuatorPark = new ActuatorPark(environment);
         SensorPark sensorPark = new SensorPark(environment);
 
-        SoilMoistureDependentField world = new SoilMoistureDependentField(
+        SoilMoistureDependentField field = new SoilMoistureDependentField(
                 50000,
                 "Smart Agriculture Field",
-                sensorPark.getNumberOfSensors(),
-                1,
                 sensorPark,
                 actuatorPark);
 
         Connector connector = new Connector();
 
-        connector.run(world);
+        connector.run(field);
     }
 }

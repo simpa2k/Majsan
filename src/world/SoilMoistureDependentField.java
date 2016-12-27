@@ -20,12 +20,10 @@ public class SoilMoistureDependentField extends Field {
 
     public SoilMoistureDependentField(Integer lifespan,
                                       String name,
-                                      int numSensors,
-                                      int numActions,
                                       SensorPark sensorPark,
                                       ActuatorPark actuatorPark) {
         
-        super(lifespan, name, numSensors, numActions);
+        super(lifespan, name);
         this.sensorPark = sensorPark;
         this.actuatorPark = actuatorPark;
 
@@ -43,14 +41,8 @@ public class SoilMoistureDependentField extends Field {
         timestep += 1;
 
         actuatorPark.actuate(actions);
-
-       /*System.out.println("Sleep");
-        try{
-            TimeUnit.MILLISECONDS.sleep(100);
-        }catch(InterruptedException exception){
-
-        }*/
         scan();
+
         sensors.put(SoilMoistureDependentField.SOIL_MOISTURE, calculateSensorAverage());
 
         return new Step(sensors, reward);
@@ -87,7 +79,9 @@ public class SoilMoistureDependentField extends Field {
     }
 
     public Map<String, ContextualizedTableEntry> getSensors(){
+
         sensors.put(SoilMoistureDependentField.SOIL_MOISTURE, calculateSensorAverage());
         return sensors;
+
     }
 }
