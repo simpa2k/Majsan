@@ -38,12 +38,12 @@ public class Environment {
 
     public void affectSoilMoisture(double irrigate){
 
-        calculateSoilMoisture(soilMoistureEast, irrigate);
-        calculateSoilMoisture(soilMoistureWest, irrigate);
-
         calculateTemperature();
         calculateUvLight();
         calculateWindSpeed();
+
+        calculateSoilMoisture(soilMoistureEast, irrigate);
+        calculateSoilMoisture(soilMoistureWest, irrigate);
 
         if(timeOfYearCounter % (365/4) == 0 && timeOfYearCounter != 0) {
             clock++;
@@ -55,7 +55,11 @@ public class Environment {
     private void calculateSoilMoisture(ContextualizedTableEntry initialSoilMoisture, double irrigate) {
 
         double soilMoistureValue = initialSoilMoisture.getValue();
-        double unroundedSoilMoisture = (soilMoistureValue - random(0.0, 0.02)) + (irrigate * 0.02);
+        //double unroundedSoilMoisture = (soilMoistureValue - random(0.0, 0.02)) + (irrigate * 0.02);
+
+        double weather = Math.abs((temperature.getValue() + uvLight.getValue() + windSpeed.getValue()) / 1000);
+        System.out.println(temperature.getValue());
+        double unroundedSoilMoisture = (soilMoistureValue - weather) + irrigate * 0.02;
 
         if(unroundedSoilMoisture < 0 ){
              unroundedSoilMoisture = 0;
@@ -102,7 +106,7 @@ public class Environment {
         }
 
         temperature.setValue(randomizeSensorValue(temperature.getValue(), minChange, maxChange, lowerBound, upperBound, 0));
-       // temperature.setValue(10);
+        //temperature.setValue(10);
         temperature.setWhen(getTimeOfYear());
 
     }
@@ -116,7 +120,8 @@ public class Environment {
 
     private void calculateWindSpeed(){
 
-        windSpeed.setValue(randomizeSensorValue(windSpeed.getValue(), 0.0, 0.1, 0, 32.7, 1));
+        //windSpeed.setValue(randomizeSensorValue(windSpeed.getValue(), 0.0, 0.1, 0, 32.7, 1));
+        windSpeed.setValue(2);
         windSpeed.setWhen(getTimeOfYear());
     }
 

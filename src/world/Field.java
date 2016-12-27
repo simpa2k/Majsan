@@ -6,7 +6,7 @@ import tableEntry.ContextualizedTableEntry;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class World {
+public abstract class Field {
 
     private int lifespan;
     private String name;
@@ -22,7 +22,7 @@ public abstract class World {
 
     protected double reward;
 
-    public World(Integer lifespan, String name, int numSensors, int numActions) {
+    public Field(Integer lifespan, String name, int numSensors, int numActions) {
         
         if (lifespan == null) {
             this.lifespan = (int) Math.pow(10, 5);

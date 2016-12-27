@@ -2,7 +2,7 @@ package brain;
 
 import tableEntry.ContextualizedTableEntry;
 import tableEntry.TableEntry;
-import world.SmartAgricultureWorld;
+import world.SoilMoistureDependentField;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +62,7 @@ public class Brain {
 
                 TableEntry currentObservationCount = probTable.get(row, "observations");
 
-               if (sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getValue() == probTable.get(row, "soil moisture, after").getValue()) {
+               if (sensors.get(SoilMoistureDependentField.SOIL_MOISTURE).getValue() == probTable.get(row, "soil moisture, after").getValue()) {
                     currentObservationCount.increment();
                     appendNewRow = false;
 
@@ -86,9 +86,9 @@ public class Brain {
                 probTable.put(numberOfRows, columnName, value);
             });
             probTable.put(numberOfRows, "action", new TableEntry(lastAction.getValue()));
-            probTable.put(numberOfRows, "soil moisture, after", new ContextualizedTableEntry(sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getValue(),
-                    sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getWhen(),
-                    sensors.get(SmartAgricultureWorld.SOIL_MOISTURE).getWhich()));
+            probTable.put(numberOfRows, "soil moisture, after", new ContextualizedTableEntry(sensors.get(SoilMoistureDependentField.SOIL_MOISTURE).getValue(),
+                    sensors.get(SoilMoistureDependentField.SOIL_MOISTURE).getWhen(),
+                    sensors.get(SoilMoistureDependentField.SOIL_MOISTURE).getWhich()));
 
             double opportunities = currentOpportunityCount == null ? 1 : currentOpportunityCount.getValue();
             double observations = 1;
@@ -100,7 +100,7 @@ public class Brain {
             //probTable.put(numberOfRows, "reward", new TableEntry(reward));
         }
 
-       // ContextualizedTableEntry oldEntry = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
+       // ContextualizedTableEntry oldEntry = sensors.get(SoilMoistureDependentField.SOIL_MOISTURE);
        // ContextualizedTableEntry newEntry = new ContextualizedTableEntry(oldEntry.getValue(), oldEntry.getWhen(), oldEntry.getWhich());
 
         sensors.forEach((sensorID, value) -> {
@@ -119,7 +119,7 @@ public class Brain {
         lastAction.setValue(action);
 
         HashMap<String, Double> actions = new HashMap<>();
-        actions.put(SmartAgricultureWorld.IRRIGATE, action);
+        actions.put(SoilMoistureDependentField.IRRIGATE, action);
 
        // System.out.println(probTable.visualizeTable(true));
 

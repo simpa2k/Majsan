@@ -1,7 +1,7 @@
 package communicators;
 
 import world.Environment;
-import world.SmartAgricultureWorld;
+import world.SoilMoistureDependentField;
 
 import java.util.Map;
 
@@ -17,6 +17,6 @@ public class ActuatorPark {
     }
 
     public void actuate(Map<String, Double> actions){
-        environment.affectSoilMoisture(actions.get(SmartAgricultureWorld.IRRIGATE));
+        environment.affectSoilMoisture(actions.get(SoilMoistureDependentField.IRRIGATE));
     }
 }

@@ -3,7 +3,7 @@ package brain;
 import random.Random;
 import tableEntry.ContextualizedTableEntry;
 import tableEntry.TableEntry;
-import world.SmartAgricultureWorld;
+import world.SoilMoistureDependentField;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +45,7 @@ public class DecisionMaker {
     protected double makeDecision(Map<String, ContextualizedTableEntry> sensors) {
 
         double action;
-        TableEntry smb = sensors.get(SmartAgricultureWorld.SOIL_MOISTURE);
+        TableEntry smb = sensors.get(SoilMoistureDependentField.SOIL_MOISTURE);
         double smbValue = smb.getValue();
 
         Map<String, TableEntry> valuesAndColumns = new HashMap<>();

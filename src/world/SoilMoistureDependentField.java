@@ -7,9 +7,8 @@ import tableEntry.ContextualizedTableEntry;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-public class SmartAgricultureWorld extends World {
+public class SoilMoistureDependentField extends Field {
 
     public static final String SOIL_MOISTURE = "Soil Moisture";
     public static final String SOIL_MOISTURE_EAST = "Soil Moisture EAST";
@@ -19,7 +18,12 @@ public class SmartAgricultureWorld extends World {
     private SensorPark sensorPark;
     private ActuatorPark actuatorPark;
 
-    public SmartAgricultureWorld(Integer lifespan, String name, int numSensors, int numActions, SensorPark sensorPark, ActuatorPark actuatorPark) {
+    public SoilMoistureDependentField(Integer lifespan,
+                                      String name,
+                                      int numSensors,
+                                      int numActions,
+                                      SensorPark sensorPark,
+                                      ActuatorPark actuatorPark) {
         
         super(lifespan, name, numSensors, numActions);
         this.sensorPark = sensorPark;
@@ -47,7 +51,7 @@ public class SmartAgricultureWorld extends World {
 
         }*/
         scan();
-        sensors.put(SmartAgricultureWorld.SOIL_MOISTURE, calculateSensorAverage());
+        sensors.put(SoilMoistureDependentField.SOIL_MOISTURE, calculateSensorAverage());
 
         return new Step(sensors, reward);
 
@@ -83,7 +87,7 @@ public class SmartAgricultureWorld extends World {
     }
 
     public Map<String, ContextualizedTableEntry> getSensors(){
-        sensors.put(SmartAgricultureWorld.SOIL_MOISTURE, calculateSensorAverage());
+        sensors.put(SoilMoistureDependentField.SOIL_MOISTURE, calculateSensorAverage());
         return sensors;
     }
 }
