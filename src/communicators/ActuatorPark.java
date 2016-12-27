@@ -1,7 +1,7 @@
 package communicators;
 
-import world.Environment;
-import world.SoilMoistureDependentField;
+import field.Environment;
+import field.SoilMoistureDependentField;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package world;
+package field;
 
 import communicators.ActuatorPark;
 import communicators.SensorPark;

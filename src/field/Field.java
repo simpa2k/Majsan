@@ -1,4 +1,4 @@
-package world;
+package field;
 
 import brain.Brain;
 import tableEntry.ContextualizedTableEntry;

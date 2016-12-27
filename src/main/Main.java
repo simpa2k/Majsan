@@ -3,9 +3,9 @@ package main;
 import communicators.ActuatorPark;
 import communicators.SensorPark;
 import connector.Connector;
-import world.Environment;
-import world.SoilMoistureDependentField;
-import world.TimeOfYear;
+import field.Environment;
+import field.SoilMoistureDependentField;
+import field.TimeOfYear;
 
 public class Main {
 

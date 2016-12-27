@@ -1,7 +1,7 @@
 package tableEntry;
 
 
-import world.TimeOfYear;
+import field.TimeOfYear;
 
 
 /**
@@ -20,7 +20,7 @@ public class ContextualizedTableEntry extends TableEntry {
 
     }
 
-     public TimeOfYear getWhen() {
+    public TimeOfYear getWhen() {
         return when;
     }
 
@@ -51,8 +51,4 @@ public class ContextualizedTableEntry extends TableEntry {
 
     }
 }
-
-    /*  public String getContext() {
-        return context;
-    } */
 

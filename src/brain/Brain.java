@@ -2,7 +2,7 @@ package brain;
 
 import tableEntry.ContextualizedTableEntry;
 import tableEntry.TableEntry;
-import world.SoilMoistureDependentField;
+import field.SoilMoistureDependentField;
 
 import java.util.ArrayList;
 import java.util.HashMap;

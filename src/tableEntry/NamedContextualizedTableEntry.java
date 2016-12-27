@@ -1,6 +1,6 @@
 package tableEntry;
 
-import world.TimeOfYear;
+import field.TimeOfYear;
 
 /**
  * Created by Maja on 2016-12-16.

@@ -1,9 +1,9 @@
 package connector;
 
 import brain.Brain;
-import world.SoilMoistureDependentField;
-import world.Step;
-import world.Field;
+import field.SoilMoistureDependentField;
+import field.Step;
+import field.Field;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

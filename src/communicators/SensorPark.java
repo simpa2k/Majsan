@@ -1,7 +1,7 @@
 package communicators;
 
 import tableEntry.ContextualizedTableEntry;
-import world.Environment;
+import field.Environment;
 
 import java.util.HashMap;
 import java.util.Map;
