@@ -74,34 +74,8 @@ public class Brain {
         }
 
         if(appendNewRow) {
-
-            numberOfRows++;
-
-            lastSensorValues.forEach((sensorID, value) -> {
-                String columnName = sensorID;
-                if(sensorID.equals("Soil Moisture")){
-                    columnName += ", before";
-                    columnName = columnName.toLowerCase();
-                }
-                probTable.put(numberOfRows, columnName, value);
-            });
-            probTable.put(numberOfRows, "action", new TableEntry(lastAction.getValue()));
-            probTable.put(numberOfRows, "soil moisture, after", new ContextualizedTableEntry(sensors.get(SoilMoistureDependentField.SOIL_MOISTURE).getValue(),
-                    sensors.get(SoilMoistureDependentField.SOIL_MOISTURE).getWhen(),
-                    sensors.get(SoilMoistureDependentField.SOIL_MOISTURE).getWhich()));
-
-            double opportunities = currentOpportunityCount == null ? 1 : currentOpportunityCount.getValue();
-            double observations = 1;
-            double probability = observations/opportunities;
-
-            probTable.put(numberOfRows, "opportunities", new TableEntry((opportunities)));
-            probTable.put(numberOfRows, "observations", new TableEntry(observations));
-            probTable.put(numberOfRows, "probability", new TableEntry(probability));
-            //probTable.put(numberOfRows, "reward", new TableEntry(reward));
+            appendNewRow(sensors, currentOpportunityCount);
         }
-
-       // ContextualizedTableEntry oldEntry = sensors.get(SoilMoistureDependentField.SOIL_MOISTURE);
-       // ContextualizedTableEntry newEntry = new ContextualizedTableEntry(oldEntry.getValue(), oldEntry.getWhen(), oldEntry.getWhich());
 
         sensors.forEach((sensorID, value) -> {
 
@@ -121,9 +95,33 @@ public class Brain {
         HashMap<String, Double> actions = new HashMap<>();
         actions.put(SoilMoistureDependentField.IRRIGATE, action);
 
-       // System.out.println(probTable.visualizeTable(true));
-
         return actions;
+    }
+
+    private void appendNewRow(Map<String, ContextualizedTableEntry> sensors, TableEntry currentOpportunityCount) {
+        numberOfRows++;
+
+        lastSensorValues.forEach((sensorID, value) -> {
+            String columnName = sensorID;
+            if(sensorID.equals("Soil Moisture")){
+                columnName += ", before";
+                columnName = columnName.toLowerCase();
+            }
+            probTable.put(numberOfRows, columnName, value);
+        });
+        probTable.put(numberOfRows, "action", new TableEntry(lastAction.getValue()));
+        probTable.put(numberOfRows, "soil moisture, after", new ContextualizedTableEntry(sensors.get(SoilMoistureDependentField.SOIL_MOISTURE).getValue(),
+                sensors.get(SoilMoistureDependentField.SOIL_MOISTURE).getWhen(),
+                sensors.get(SoilMoistureDependentField.SOIL_MOISTURE).getWhich()));
+
+        double opportunities = currentOpportunityCount == null ? 1 : currentOpportunityCount.getValue();
+        double observations = 1;
+        double probability = observations/opportunities;
+
+        probTable.put(numberOfRows, "opportunities", new TableEntry((opportunities)));
+        probTable.put(numberOfRows, "observations", new TableEntry(observations));
+        probTable.put(numberOfRows, "probability", new TableEntry(probability));
+        //probTable.put(numberOfRows, "reward", new TableEntry(reward));
     }
 
     public int getTimeStep() {
