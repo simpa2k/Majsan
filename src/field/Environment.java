@@ -55,11 +55,7 @@ public class Environment {
     private void calculateSoilMoisture(ContextualizedTableEntry initialSoilMoisture, double irrigate) {
 
         double soilMoistureValue = initialSoilMoisture.getValue();
-        //double unroundedSoilMoisture = (soilMoistureValue - random(0.0, 0.02)) + (irrigate * 0.02);
-
-        double weather = Math.abs((temperature.getValue() + uvLight.getValue() + windSpeed.getValue()) / 1000);
-        System.out.println(temperature.getValue());
-        double unroundedSoilMoisture = (soilMoistureValue - weather) + irrigate * 0.02;
+        double unroundedSoilMoisture = (soilMoistureValue - random(0.0, 0.02)) + (irrigate * 0.02);
 
         if(unroundedSoilMoisture < 0 ){
              unroundedSoilMoisture = 0;

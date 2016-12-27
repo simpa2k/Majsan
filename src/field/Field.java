@@ -59,7 +59,7 @@ public abstract class Field {
 
     }
 
-    private void visualizeWorld(Brain brain) {
+    private void visualizeField(Brain brain) {
         
         System.out.format("%s is %s time steps old", name, timestep);
         System.out.format("The brain is %s time steps old", brain.getTimeStep());
