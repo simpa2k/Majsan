@@ -16,7 +16,6 @@ public class SoilMoistureDependentField extends Field {
     public static final String IRRIGATE = "Irrigate";
 
     private double soilMoistureGoal = 0.3;
-    private double acceptableDeviationFromGoal = 0.05;
 
     private SensorPark sensorPark;
     private ActuatorPark actuatorPark;
@@ -46,12 +45,17 @@ public class SoilMoistureDependentField extends Field {
         actuatorPark.actuate(actions);
         scan();
 
-        double previousSoilMoisture = sensors.get(SOIL_MOISTURE).getValue();
+        double previousSoilMoisture;
         ContextualizedTableEntry soilMoistureAverage = calculateSensorAverage();
-        sensors.put(SoilMoistureDependentField.SOIL_MOISTURE, soilMoistureAverage);
 
+        if (sensors.get(SOIL_MOISTURE) != null) {
+            previousSoilMoisture = sensors.get(SOIL_MOISTURE).getValue();
+        } else {
+            previousSoilMoisture = soilMoistureAverage.getValue();
+        }
+
+        sensors.put(SOIL_MOISTURE, soilMoistureAverage);
         reward = calculateReward(previousSoilMoisture, soilMoistureAverage.getValue());
-        System.out.println("Reward: " + reward);
 
         return new Step(sensors, reward);
 
@@ -91,7 +95,7 @@ public class SoilMoistureDependentField extends Field {
         double differenceFromGoalBefore = Math.abs(soilMoistureGoal - previousSoilMoisture);
         double differenceFromGoalNow = Math.abs(soilMoistureGoal - currentSoilMoisture);
 
-        return soilMoistureGoal - currentSoilMoisture;
+        return differenceFromGoalBefore - differenceFromGoalNow;
 
     }
 

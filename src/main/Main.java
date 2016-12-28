@@ -16,7 +16,7 @@ public class Main {
         SensorPark sensorPark = new SensorPark(environment);
 
         SoilMoistureDependentField field = new SoilMoistureDependentField(
-                50000,
+                10000,
                 "Smart Agriculture Field",
                 sensorPark,
                 actuatorPark);

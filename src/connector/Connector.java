@@ -36,7 +36,7 @@ public class Connector {
 
             String dump = field.visualize(brain);
             if(dump != null){
-                //dumpToFile(dump + (soilMoistureAverage/50));
+                dumpToFile(dump + (soilMoistureAverage/50));
                 soilMoistureAverage = 0;
             }
         }
