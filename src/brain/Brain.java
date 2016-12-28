@@ -74,7 +74,7 @@ public class Brain {
         }
 
         if(appendNewRow) {
-            appendNewRow(sensors, currentOpportunityCount);
+            appendNewRow(sensors, currentOpportunityCount, reward);
         }
 
         sensors.forEach((sensorID, value) -> {
@@ -98,7 +98,7 @@ public class Brain {
         return actions;
     }
 
-    private void appendNewRow(Map<String, ContextualizedTableEntry> sensors, TableEntry currentOpportunityCount) {
+    private void appendNewRow(Map<String, ContextualizedTableEntry> sensors, TableEntry currentOpportunityCount, double reward) {
         numberOfRows++;
 
         lastSensorValues.forEach((sensorID, value) -> {
@@ -121,7 +121,7 @@ public class Brain {
         probTable.put(numberOfRows, "opportunities", new TableEntry((opportunities)));
         probTable.put(numberOfRows, "observations", new TableEntry(observations));
         probTable.put(numberOfRows, "probability", new TableEntry(probability));
-        //probTable.put(numberOfRows, "reward", new TableEntry(reward));
+        probTable.put(numberOfRows, "reward", new TableEntry(reward));
     }
 
     public int getTimeStep() {

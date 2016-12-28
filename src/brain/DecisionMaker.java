@@ -60,7 +60,6 @@ public class DecisionMaker {
         });
 
         ArrayList<Integer> rows = probTable.tableRowContainsValuesInColumns(valuesAndColumns);
-
         if (!rows.isEmpty()) {
 
             Integer rowBestResult = null;
@@ -70,6 +69,8 @@ public class DecisionMaker {
                 double diffGoalSMB = Math.abs(soilMoistureGoal - smbValue);
                 double diffGoalSMA = Math.abs(soilMoistureGoal - probTable.get(row, "soil moisture, after").getValue());
 
+                System.out.println(diffGoalSMA);
+                System.out.println(probTable.get(row, "reward").getValue());
                 if (diffGoalSMA < diffGoalSMB) {
 
                     if (rowBestResult == null || diffGoalSMA < bestDiffGoalSMA){
