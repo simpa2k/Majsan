@@ -45,8 +45,6 @@ public class DecisionMaker {
     protected double makeDecision(Map<String, ContextualizedTableEntry> sensors) {
 
         double action;
-        TableEntry smb = sensors.get(SoilMoistureDependentField.SOIL_MOISTURE);
-        double smbValue = smb.getValue();
 
         Map<String, TableEntry> valuesAndColumns = new HashMap<>();
 
@@ -62,42 +60,47 @@ public class DecisionMaker {
         ArrayList<Integer> rows = probTable.tableRowContainsValuesInColumns(valuesAndColumns);
         if (!rows.isEmpty()) {
 
-            Integer rowBestResult = null;
-            double bestDiffGoalSMA = 0.0;
+            Integer rowHighestReward = null;
+            double highestReward = 0.0;
 
             for (Integer row : rows) {
-                double diffGoalSMB = Math.abs(soilMoistureGoal - smbValue);
-                double diffGoalSMA = Math.abs(soilMoistureGoal - probTable.get(row, "soil moisture, after").getValue());
 
-                System.out.println(diffGoalSMA);
-                System.out.println(probTable.get(row, "reward").getValue());
-                if (diffGoalSMA < diffGoalSMB) {
+                double reward = probTable.get(row, "reward").getValue();
 
-                    if (rowBestResult == null || diffGoalSMA < bestDiffGoalSMA){
+                if (reward > 0) {
 
-                        rowBestResult = row;
-                        bestDiffGoalSMA = diffGoalSMA;
+                    if (rowHighestReward == null || reward > highestReward){
 
-                    }else if(diffGoalSMA == bestDiffGoalSMA){
+                        rowHighestReward = row;
+                        highestReward = reward;
+
+                    } else if(reward == highestReward) {
 
                         double currentRowProbability = probTable.get(row, "probability").getValue();
-                        double bestRowProbability = probTable.get(rowBestResult, "probability").getValue();
+                        double bestRowProbability = probTable.get(rowHighestReward, "probability").getValue();
 
                         if(currentRowProbability > bestRowProbability){
 
-                            rowBestResult = row;
-                            bestDiffGoalSMA = diffGoalSMA;
+                            rowHighestReward = row;
+                            highestReward = reward;
+
                         }
                     }
                 }
             }
-            if (rowBestResult != null) {
-                action = probTable.get(rowBestResult, "action").getValue();
+
+            if (rowHighestReward != null) {
+
+                action = probTable.get(rowHighestReward, "action").getValue();
+
             } else {
-                int random = (int) Random.random(0, rows.size()-0.1);
+
+                int random = (int) Random.random(0, rows.size() - 0.1);
                 action = probTable.get(rows.get(random), "action").getValue() == 0 ? 1 : 0;
+
             }
-        }else{
+
+        } else {
 
             action = Math.random() > 0.5 ? 1 : 0;
             /* ToDo: Might be an idea to loop over the entire table and check which action
