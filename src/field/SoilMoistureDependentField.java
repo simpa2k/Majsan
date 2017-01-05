@@ -33,9 +33,7 @@ public class SoilMoistureDependentField extends Field {
 
     }
 
-    private void scan() {
-        sensors = sensorPark.getSensorValues();
-    }
+    private void scan() { sensors = sensorPark.getSensorValues(); }
 
     @Override
     public Step step(Map<String, Double> actions) {
@@ -45,8 +43,9 @@ public class SoilMoistureDependentField extends Field {
         actuatorPark.actuate(actions);
         scan();
 
-        double previousSoilMoisture;
         ContextualizedTableEntry soilMoistureAverage = calculateSensorAverage();
+
+        double previousSoilMoisture;
 
         if (sensors.get(SOIL_MOISTURE) != null) {
             previousSoilMoisture = sensors.get(SOIL_MOISTURE).getValue();
