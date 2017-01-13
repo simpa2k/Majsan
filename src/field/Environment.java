@@ -6,9 +6,6 @@ import tableEntry.NamedContextualizedTableEntry;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-/**
- * Created by Maja on 2016-12-13.
- */
 public class Environment {
 
     private ContextualizedTableEntry soilMoistureWest;

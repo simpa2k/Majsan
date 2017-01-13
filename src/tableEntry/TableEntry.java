@@ -1,8 +1,5 @@
 package tableEntry;
 
-/**
- * Created by simpa2k on 2016-12-07.
- */
 public class TableEntry {
 
     protected double value;

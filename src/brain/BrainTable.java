@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Robert on 2016-12-14.
- */
 public class BrainTable{
 
     private HashBasedTable <Integer, String, TableEntry> table = HashBasedTable.create();

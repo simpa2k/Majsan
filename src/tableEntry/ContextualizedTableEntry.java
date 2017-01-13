@@ -3,10 +3,6 @@ package tableEntry;
 
 import field.TimeOfYear;
 
-
-/**
- * Created by simpa2k on 2016-12-07.
- */
 public class ContextualizedTableEntry extends TableEntry {
 
     private TimeOfYear when; //time of year

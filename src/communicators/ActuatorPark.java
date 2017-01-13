@@ -5,9 +5,6 @@ import field.SoilMoistureDependentField;
 
 import java.util.Map;
 
-/**
- * Created by Maja on 2016-12-13.
- */
 public class ActuatorPark {
 
     private Environment environment;
