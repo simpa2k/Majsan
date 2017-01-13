@@ -102,7 +102,6 @@ public class Environment {
         }
 
         temperature.setValue(randomizeSensorValue(temperature.getValue(), minChange, maxChange, lowerBound, upperBound, 0));
-        //temperature.setValue(10);
         temperature.setWhen(getTimeOfYear());
 
     }
@@ -110,14 +109,12 @@ public class Environment {
     private void calculateUvLight(){
 
         uvLight.setValue(randomizeSensorValue(uvLight.getValue(), 0.0, 1.0, 0.0, 5.0, 0));
-        //uvLight.setValue(2);
         uvLight.setWhen(getTimeOfYear());
     }
 
     private void calculateWindSpeed(){
 
-        //windSpeed.setValue(randomizeSensorValue(windSpeed.getValue(), 0.0, 0.1, 0, 32.7, 1));
-        windSpeed.setValue(2);
+        windSpeed.setValue(randomizeSensorValue(windSpeed.getValue(), 0.0, 0.1, 0, 32.7, 1));
         windSpeed.setWhen(getTimeOfYear());
     }
 
